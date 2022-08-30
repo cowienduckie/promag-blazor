@@ -10,5 +10,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         entity.HasKey(e => new {e.Id});
 
+        entity.HasMany<Employee>(e => e.Employees)
+            .WithOne(e => e.UserAccount)
+            .HasForeignKey(e => e.UserId);
     }
 }

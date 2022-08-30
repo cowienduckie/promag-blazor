@@ -12,8 +12,13 @@ public class User : IdentityUser
     [Required, Display(Name = "Last Name")]
     public string LastName { get; set; } = "LastName";
 
+    public string FullName => $"{FirstName} {LastName}";
+
     [Display(Name = "Date of Birth")]
     public DateTime? DateOfBirth { get; set; }
+
+    [Required, Display(Name = "Is ProjectManger")]
+    public bool IsProjectManager { get; set; } = false;
 
     [Required] public bool IsDelete { get; set; } = false;
 
@@ -24,4 +29,7 @@ public class User : IdentityUser
     [Required, Display(Name = "Last Modified"), DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:HH:mm:ss dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime LastModified { get; set; } = DateTime.Now;
+
+    //
+    public ICollection<Employee> Employees { get; set; }
 }

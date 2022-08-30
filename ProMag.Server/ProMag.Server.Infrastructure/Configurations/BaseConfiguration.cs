@@ -6,9 +6,9 @@ namespace ProMag.Server.Infrastructure.Configurations;
 
 public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
 {
-    public virtual string SchemaName { get; } = "dbo";
+    public string SchemaName => "dbo";
 
-    public virtual string TableName { get; } = nameof(TEntity);
+    public string TableName => typeof(TEntity).Name;
 
     public virtual void Configure(EntityTypeBuilder<TEntity> entity)
     {

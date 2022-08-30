@@ -12,6 +12,11 @@ public class DataContext : IdentityDbContext<User>
     {
     }
 
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Team> Teams { get; set; }
+    public DbSet<TeamRole> TeamRoles { get; set; }
+    public DbSet<TeamMember> TeamMembers { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -27,5 +32,9 @@ public class DataContext : IdentityDbContext<User>
         modelBuilder.CascadeAllRelationsOnDelete();
 
         new UserConfiguration();
+        new EmployeeConfiguration();
+        new TeamConfiguration();
+        new TeamRoleConfiguration();
+        new TeamMemberConfiguration();
     }
 }
