@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DataTransferObjects\DtoProfiles\.gitkeep" />
+    <None Remove="DataTransferObjects\ReadModels\.gitkeep" />
+    <None Remove="DataTransferObjects\WriteModels\.gitkeep" />
+    <None Remove="Domain\Supervisor\Partials\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="DataTransferObjects\DtoProfiles\.gitkeep" />
+    <Compile Include="DataTransferObjects\ReadModels\.gitkeep" />
+    <Compile Include="DataTransferObjects\WriteModels\.gitkeep" />
+    <Compile Include="Domain\Supervisor\Partials\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProMag.Server.Library\ProMag.Server.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

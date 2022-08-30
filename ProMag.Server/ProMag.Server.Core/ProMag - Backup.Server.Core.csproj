@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProMag.Server.Library\ProMag.Server.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataTransferObjects\DtoProfiles\" />
+    <Folder Include="DataTransferObjects\WriteModels\" />
+    <Folder Include="DataTransferObjects\ReadModels\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\NewFolder\" />
+    <Folder Include="Domain\Repositories\" />
+  </ItemGroup>
+
+</Project>
