@@ -2,23 +2,18 @@
 
 namespace ProMag.Server.Core.Domain.Entities;
 
-public class TeamMember : BaseEntity
+public class Assignment : BaseEntity
 {
     [Key]
     public int Id { get; set; }
 
     [Required]
-    public int TeamId { get; set; }
+    public int SubTaskId { get; set; }
 
-    public Team Team { get; set; }
+    public SubTask SubTask { get; set; }
 
     [Required]
     public int EmployeeId { get; set; }
-
+    
     public Employee Employee { get; set; }
-
-    [Required]
-    public int TeamRoleId { get; set; }
-
-    public TeamRole TeamRole { get; set; }
 }

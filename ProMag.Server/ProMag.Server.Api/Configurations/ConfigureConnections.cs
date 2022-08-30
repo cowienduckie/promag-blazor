@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using ProMag.Server.Infrastructure;
+using ProMag.Server.Infrastructure.Extensions;
 
 namespace ProMag.Server.Api.Configurations;
 
@@ -14,6 +16,9 @@ public static class ConfigureConnections
         services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
         {
             optionsBuilder.UseSqlServer(connection);
+
+            optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, CustomAnnotationProvider>();
+            optionsBuilder.ReplaceService<IMigrationsSqlGenerator, CustomMigrationsSqlGenerator>();
         });
         
         services.AddSingleton(new SqlConnection(connection));
