@@ -168,16 +168,13 @@ namespace ProMag.Server.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(997);
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDelete")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(999);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(998);
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -203,16 +200,13 @@ namespace ProMag.Server.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(997);
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDelete")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(999);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(998);
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Name")
                         .HasColumnType("int");
@@ -231,19 +225,16 @@ namespace ProMag.Server.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(997);
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(999);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(998);
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
@@ -271,16 +262,13 @@ namespace ProMag.Server.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(997);
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDelete")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(999);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(998);
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

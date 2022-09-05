@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Migrations\.gitkeep" />
     <None Remove="Repositories\.gitkeep" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\.gitkeep" />
     <Compile Include="Repositories\.gitkeep" />
   </ItemGroup>
 
@@ -35,6 +33,7 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

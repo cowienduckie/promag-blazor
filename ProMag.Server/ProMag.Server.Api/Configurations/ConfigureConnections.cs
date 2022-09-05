@@ -16,9 +16,6 @@ public static class ConfigureConnections
         services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
         {
             optionsBuilder.UseSqlServer(connection);
-
-            optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, CustomAnnotationProvider>();
-            optionsBuilder.ReplaceService<IMigrationsSqlGenerator, CustomMigrationsSqlGenerator>();
         });
         
         services.AddSingleton(new SqlConnection(connection));
