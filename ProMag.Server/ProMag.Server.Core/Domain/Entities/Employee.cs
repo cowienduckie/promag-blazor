@@ -20,4 +20,6 @@ public class Employee : BaseEntity
 
     //
     public ICollection<TeamMember> Members { get; set; }
+
+    public ICollection<Assignment> Assignments { get; set; }
 }

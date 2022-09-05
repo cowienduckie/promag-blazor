@@ -16,5 +16,9 @@ public class EmployeeConfiguration : BaseConfiguration<Employee>
         entity.HasMany<TeamMember>(e => e.Members)
             .WithOne(tm => tm.Employee)
             .HasForeignKey(tm => tm.EmployeeId);
+
+        entity.HasMany<Assignment>(e => e.Assignments)
+            .WithOne(a => a.Employee)
+            .HasForeignKey(a => a.EmployeeId);
     }
 }

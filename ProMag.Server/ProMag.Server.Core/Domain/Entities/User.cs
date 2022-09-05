@@ -32,4 +32,6 @@ public class User : IdentityUser
 
     //
     public ICollection<Employee> Employees { get; set; }
+
+    public ICollection<ProjectManager> ProjectManagers { get; set; }
 }
