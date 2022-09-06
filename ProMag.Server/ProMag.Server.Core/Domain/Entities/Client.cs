@@ -15,7 +15,7 @@ public class Client : BaseEntity
     public ICollection<ClientContact> Contacts { get; set; }
 
     public ICollection<Project> Projects { get; set; }
-    
+
     public List<ProjectClient> ProjectClients { get; set; }
 }
 
@@ -30,7 +30,7 @@ public class ClientContact : BaseEntity
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
-    
+
     public string FullName { get; set; }
 
     public string Title { get; set; }

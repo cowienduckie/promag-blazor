@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProMag.Server.Core.Domain.Entities;
-using ProMag.Server.Infrastructure.Extensions;
 
 namespace ProMag.Server.Infrastructure.Configurations;
 

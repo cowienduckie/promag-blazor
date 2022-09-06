@@ -14,6 +14,6 @@ public class Assignment : BaseEntity
 
     [Required]
     public int EmployeeId { get; set; }
-    
+
     public Employee Employee { get; set; }
 }

@@ -26,7 +26,7 @@ public class ProjectConfiguration : BaseConfiguration<Project>
                     .HasForeignKey(pc => pc.ProjectId),
                 e =>
                 {
-                    e.HasKey(pc => new {pc.ProjectId, pc.ClientId});
+                    e.HasKey(pc => new { pc.ProjectId, pc.ClientId });
                 });
 
         entity.HasMany(e => e.ProjectManagers)

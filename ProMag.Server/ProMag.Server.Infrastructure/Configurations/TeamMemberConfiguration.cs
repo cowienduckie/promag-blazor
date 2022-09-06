@@ -7,7 +7,7 @@ public class TeamMemberConfiguration : BaseConfiguration<TeamMember>
 {
     public override void ConfigureEntity(EntityTypeBuilder<TeamMember> entity)
     {
-        entity.HasKey(e => new {e.Id});
+        entity.HasKey(e => new { e.Id });
 
         entity.HasOne(e => e.Employee)
             .WithMany(e => e.Members)

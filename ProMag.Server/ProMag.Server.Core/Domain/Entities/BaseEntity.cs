@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ProMag.Server.Core.Domain.Entities;
 
 public abstract class BaseEntity
 {
-    [Required] 
+    [Required]
     public virtual bool IsDelete { get; set; } = false;
 
     [Required, Display(Name = "Create Time"), DataType(DataType.DateTime)]
