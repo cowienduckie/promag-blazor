@@ -6,7 +6,7 @@ namespace ProMag.Server.Api.Controllers;
 
 public class BaseController : ControllerBase
 {
-    protected User? CurrentUser => (User?)HttpContext.Items["User"];
+    protected User? CurrentUser => (User?) HttpContext.Items["User"];
 
     protected ActionResult HandleException(Exception e)
     {

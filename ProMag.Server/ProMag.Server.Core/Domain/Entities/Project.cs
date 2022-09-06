@@ -7,7 +7,7 @@ public class Project : BaseEntity
     [Key]
     public int Id { get; set; }
 
-    [Required, Display(Name = "Project Name")]
+    [Required, Display(Name="Project Name")]
     public string Name { get; set; }
 
     public string Description { get; set; }

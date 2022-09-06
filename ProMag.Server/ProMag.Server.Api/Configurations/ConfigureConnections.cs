@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using ProMag.Server.Infrastructure;
+using ProMag.Server.Infrastructure.Extensions;
 
 namespace ProMag.Server.Api.Configurations;
 
