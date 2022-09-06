@@ -38,7 +38,7 @@ public class DataContext : IdentityDbContext<User>
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             var tableName = entityType.GetTableName();
-            if (!string.IsNullOrEmpty(tableName) && tableName.StartsWith("AspNet"))
+            if (!string.IsNullOrEmpty(tableName) && tableName.StartsWith("AspNet")) 
                 entityType.SetTableName(tableName[6..]);
         }
 

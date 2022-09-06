@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using ProMag.Server.Core.Domain.Entities;
+using ProMag.Server.Core.Domain.Repositories;
 using ProMag.Server.Core.Domain.Supervisor;
 using ProMag.Server.Infrastructure;
+using ProMag.Server.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ProMag.Server.Api.Configurations;
@@ -13,7 +15,10 @@ public static class ConfigureServices
 {
     public static void ConfigureRepositories(this IServiceCollection services)
     {
-
+        services.AddScoped<IMainTaskRepository, MainTaskRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<ISubTaskRepository, SubTaskRepository>();
+        services.AddScoped<IPropertyRepository, PropertyRepository>();
     }
 
     public static void ConfigureSupervisor(this IServiceCollection services)

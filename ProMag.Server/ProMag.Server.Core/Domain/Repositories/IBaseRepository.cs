@@ -2,15 +2,15 @@
 
 public interface IBaseRepository<TEntity> : IDisposable
 {
-    IEnumerable<TEntity> GetAll(string userId);
+    IEnumerable<TEntity> GetAll();
 
-    TEntity GetById(int id, string userId);
+    TEntity GetById(int id);
 
-    TEntity Create(TEntity entity, string userId);
+    TEntity Create(TEntity entity);
 
-    bool Update(TEntity entity, string userId);
+    bool Update(TEntity entity);
 
-    bool Delete(int id, string userId);
+    bool Delete(int id);
 
     bool IsExist(int id);
 }
