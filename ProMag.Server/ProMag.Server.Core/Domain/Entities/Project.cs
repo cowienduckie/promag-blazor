@@ -4,9 +4,6 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Project : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required, Display(Name="Project Name")]
     public string Name { get; set; }
 
@@ -42,9 +39,6 @@ public class ProjectClient
 
 public class ProjectStatus : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; }
 

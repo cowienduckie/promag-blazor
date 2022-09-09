@@ -4,9 +4,6 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class ProjectManager : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string UserId { get; set; }
 

@@ -1,10 +1,14 @@
-﻿namespace ProMag.Server.Core.Domain.Repositories;
+﻿using System.Linq.Expressions;
+
+namespace ProMag.Server.Core.Domain.Repositories;
 
 public interface IBaseRepository<TEntity> : IDisposable
 {
-    IEnumerable<TEntity> GetAll();
+    Task<IEnumerable<TEntity>> GetAllAsync();
 
-    TEntity GetById(int id);
+    Task<IEnumerable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression);
+
+    Task<TEntity> GetByIdAsync(int id);
 
     TEntity Create(TEntity entity);
 
@@ -13,4 +17,6 @@ public interface IBaseRepository<TEntity> : IDisposable
     bool Delete(int id);
 
     bool IsExist(int id);
+
+    Task<bool> SaveAsync();
 }

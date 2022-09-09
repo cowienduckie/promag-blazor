@@ -4,9 +4,6 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class MainTask : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; }
 
@@ -31,9 +28,6 @@ public class MainTask : BaseEntity
 
 public class TaskStatus : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; }
 

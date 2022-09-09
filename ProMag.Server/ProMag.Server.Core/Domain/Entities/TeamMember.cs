@@ -4,9 +4,6 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class TeamMember : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public int TeamId { get; set; }
 

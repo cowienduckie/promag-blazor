@@ -4,9 +4,6 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Milestone : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; }
 
@@ -27,9 +24,6 @@ public class Milestone : BaseEntity
 
 public class MilestoneStatus : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public int Name { get; set; }
 

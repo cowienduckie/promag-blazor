@@ -6,6 +6,9 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public abstract class BaseEntity
 {
+    [Key, Column(Order = 0)]
+    public int Id { get; set; }
+
     [Required] 
     public virtual bool IsDelete { get; set; } = false;
 
