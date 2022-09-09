@@ -9,15 +9,15 @@ public class EmployeeConfiguration : BaseConfiguration<Employee>
     {
         entity.HasKey(e => e.Id);
 
-        entity.HasOne<User>(e => e.UserAccount)
+        entity.HasOne(e => e.UserAccount)
             .WithMany(u => u.Employees)
             .HasForeignKey(e => e.UserId);
 
-        entity.HasMany<TeamMember>(e => e.Members)
+        entity.HasMany(e => e.Members)
             .WithOne(tm => tm.Employee)
             .HasForeignKey(tm => tm.EmployeeId);
 
-        entity.HasMany<Assignment>(e => e.Assignments)
+        entity.HasMany(e => e.Assignments)
             .WithOne(a => a.Employee)
             .HasForeignKey(a => a.EmployeeId);
     }

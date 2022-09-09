@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProMag.Server.Core.Domain.Entities;
 
@@ -9,7 +8,7 @@ public abstract class BaseEntity
     [Key, Column(Order = 0)]
     public int Id { get; set; }
 
-    [Required] 
+    [Required]
     public virtual bool IsDelete { get; set; } = false;
 
     [Required, Display(Name = "Create Time"), DataType(DataType.DateTime)]

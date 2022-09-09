@@ -13,7 +13,7 @@ public static class ConfigureConnections
     {
         var connection = configuration["ConnectionString"] ?? "";
 
-        services.AddDbContextPool<DataContext>((serviceProvider, optionsBuilder) =>
+        services.AddDbContextPool<DataContext>((optionsBuilder) =>
         {
             optionsBuilder.UseSqlServer(connection);
         });

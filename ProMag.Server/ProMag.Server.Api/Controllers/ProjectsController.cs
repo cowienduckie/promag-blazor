@@ -18,7 +18,7 @@ public class ProjectsController : BaseController
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
-        var rs = await _supervisor.GetAllAsync<Project, ProjectReadDto>();
+        var rs = await Supervisor.GetAllAsync<Project, ProjectReadDto>();
 
         return Ok(rs);
     }
@@ -26,7 +26,7 @@ public class ProjectsController : BaseController
     [HttpGet("{id}")]
     public async Task<ActionResult> GetById(int id)
     {
-        var rs = await _supervisor.GetByIdAsync<Project, ProjectReadDto>(id);
+        var rs = await Supervisor.GetByIdAsync<Project, ProjectReadDto>(id);
 
         return Ok(rs);
     }
@@ -34,9 +34,9 @@ public class ProjectsController : BaseController
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var rs = _supervisor.Delete<Project>(id);
+        var rs = Supervisor.Delete<Project>(id);
 
-        await _supervisor.SaveAsync<Project>();
+        await Supervisor.SaveAsync<Project>();
 
         return Ok(rs);
     }

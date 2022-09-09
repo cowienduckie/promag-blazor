@@ -7,7 +7,7 @@ using ProMag.Server.Library.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
-public partial class Supervisor : ISupervisor
+public class Supervisor : ISupervisor
 {
     private readonly IMemoryCache _cache;
     private readonly IMapper _mapper;
@@ -26,23 +26,28 @@ public partial class Supervisor : ISupervisor
     private IBaseRepository<TEntity> RepositoryOf<TEntity>() where TEntity : BaseEntity
     {
         return _serviceProvider
-            .GetService(typeof(IBaseRepository<TEntity>)) as IBaseRepository<TEntity> 
+            .GetService(typeof(IBaseRepository<TEntity>)) as IBaseRepository<TEntity>
                ?? throw new InvalidOperationException();
     }
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity
     {
         var repository = RepositoryOf<TEntity>();
-        var entityList =  await repository.GetAllAsync();
+        var entities = await repository.GetAllAsync();
 
-        return _mapper.Map<IEnumerable<TReadDto>>(entityList);
+        SetCache(entities);
+
+        return _mapper.Map<IEnumerable<TReadDto>>(entities);
     }
 
     public async Task<TReadDto> GetByIdAsync<TEntity, TReadDto>(int id) where TEntity : BaseEntity
     {
         var repository = RepositoryOf<TEntity>();
+        var entity = await repository.GetByIdAsync(id);
 
-        return _mapper.Map<TReadDto>(await repository.GetByIdAsync(id));
+        SetCache(entity);
+
+        return _mapper.Map<TReadDto>(entity);
     }
 
     public TReadDto Create<TEntity, TReadDto>(TEntity entity) where TEntity : BaseEntity
@@ -69,22 +74,46 @@ public partial class Supervisor : ISupervisor
         return await repository.SaveAsync();
     }
 
-    #region Shared Methods
-
-    private void SetCache<TEntity>(int id, TEntity value, string userId)
+    private void SetCache<TEntity>(TEntity entity, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
     {
-        var cacheEntryOptions =
-            new MemoryCacheEntryOptions().SetSlidingExpiration(
-                TimeSpan.FromSeconds(SystemConstants.CacheLifetimeSeconds));
-        var key = string.Concat(typeof(TEntity).FullName, "-", id) + "-" + userId;
-        _cache.Set(key, value, cacheEntryOptions);
+        var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
+
+        _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
     }
 
-    private TEntity GetCache<TEntity>(int id, string userId)
+    private void SetCache<TEntity>(IEnumerable<TEntity> entities, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
     {
-        var key = string.Concat(typeof(TEntity).FullName, "-", id) + "-" + userId;
+        var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
 
-        return _cache.Get<TEntity>(key);
+        foreach (var entity in entities)
+        {
+            _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
+        }
+    }
+
+    private TEntity GetCache<TEntity>(int id)
+    {
+        return _cache.Get<TEntity>(GetCacheKey<TEntity>(id));
+    }
+
+    private void RemoveCache<TEntity>(int id)
+    {
+        _cache.Remove(GetCacheKey<TEntity>(id));
+    }
+
+    private static string GetCacheKey<TEntity>(int id)
+    {
+        return string.Concat(typeof(TEntity).FullName, "_", id);
+    }
+
+    private static MemoryCacheEntryOptions GetDefaultCacheEntryOptions()
+    {
+        var defaultOptions = new MemoryCacheEntryOptions
+        {
+            SlidingExpiration = TimeSpan.FromSeconds(SystemConstants.CacheLifetimeSeconds)
+        };
+
+        return defaultOptions;
     }
 
     public PagedList<TEntity> GetPagedList<TEntity>(IList<TEntity> items, int pageIndex, int pageSize)
@@ -93,6 +122,4 @@ public partial class Supervisor : ISupervisor
 
         return pagedList;
     }
-
-    #endregion Shared Methods
 }

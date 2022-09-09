@@ -3,16 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Domain\Supervisor\Partials\.gitkeep" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Domain\Supervisor\Partials\.gitkeep" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProMag.Server.Library\ProMag.Server.Library.csproj" />

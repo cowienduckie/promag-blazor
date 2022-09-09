@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace ProMag.Server.Core.Domain.Entities;
 
@@ -31,7 +30,7 @@ public class User : IdentityUser
     public DateTime LastModified { get; set; } = DateTime.UtcNow;
 
     //
-    public ICollection<Employee> Employees { get; set; }
+    public ICollection<Employee>? Employees { get; set; }
 
-    public ICollection<ProjectManager> ProjectManagers { get; set; }
+    public ICollection<ProjectManager>? ProjectManagers { get; set; }
 }

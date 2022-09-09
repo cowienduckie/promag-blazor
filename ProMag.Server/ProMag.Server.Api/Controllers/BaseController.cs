@@ -4,15 +4,14 @@ using ProMag.Server.Core.Domain.Supervisor;
 
 namespace ProMag.Server.Api.Controllers;
 
-
-public class BaseController : ControllerBase
+public abstract class BaseController : ControllerBase
 {
-    protected User? CurrentUser => (User?) HttpContext.Items["User"];
-    protected readonly ISupervisor _supervisor;
+    protected User? CurrentUser => (User?)HttpContext.Items["User"];
+    protected readonly ISupervisor Supervisor;
 
-    public BaseController(ISupervisor supervisor)
+    protected BaseController(ISupervisor supervisor)
     {
-        _supervisor = supervisor;
+        Supervisor = supervisor;
     }
 
     protected ActionResult HandleException(Exception e)

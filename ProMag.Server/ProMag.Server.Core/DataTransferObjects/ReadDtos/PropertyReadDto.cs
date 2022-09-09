@@ -4,7 +4,7 @@ public class PropertyReadDto
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public int TypeId { get; set; }
 
@@ -12,12 +12,12 @@ public class PropertyReadDto
 
     public int? ProjectId { get; set; }
 
-    public string Value { get; set; }
+    public string? Value { get; set; }
 }
 
 public class PropertyTypeReadDto
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }
