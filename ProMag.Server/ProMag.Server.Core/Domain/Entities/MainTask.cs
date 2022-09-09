@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ProMag.Server.Core.Domain.Entities;
 
@@ -12,6 +13,7 @@ public class MainTask : BaseEntity
 
     public Project Project { get; set; }
 
+    [AllowNull]
     public int? MilestoneId { get; set; }
 
     public Milestone Milestone { get; set; }

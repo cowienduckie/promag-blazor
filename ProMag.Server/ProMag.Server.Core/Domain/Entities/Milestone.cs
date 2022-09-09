@@ -25,7 +25,7 @@ public class Milestone : BaseEntity
 public class MilestoneStatus : BaseEntity
 {
     [Required]
-    public int Name { get; set; }
+    public string Name { get; set; }
 
     public ICollection<Milestone> Milestones { get; set; }
 }

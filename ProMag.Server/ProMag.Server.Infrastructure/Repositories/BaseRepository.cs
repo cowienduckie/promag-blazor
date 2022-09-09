@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace ProMag.Server.Infrastructure.Repositories;
 
-public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected DataContext DataContext { get; set; }
 
