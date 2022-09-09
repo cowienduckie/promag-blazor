@@ -7,16 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DataTransferObjects\DtoProfiles\.gitkeep" />
-    <None Remove="DataTransferObjects\ReadModels\.gitkeep" />
-    <None Remove="DataTransferObjects\WriteModels\.gitkeep" />
     <None Remove="Domain\Supervisor\Partials\.gitkeep" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="DataTransferObjects\DtoProfiles\.gitkeep" />
-    <Compile Include="DataTransferObjects\ReadModels\.gitkeep" />
-    <Compile Include="DataTransferObjects\WriteModels\.gitkeep" />
     <Compile Include="Domain\Supervisor\Partials\.gitkeep" />
   </ItemGroup>
 
