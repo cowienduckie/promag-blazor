@@ -8,7 +8,7 @@ public interface IBaseRepository<TEntity> : IDisposable
 
     Task<IEnumerable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression);
 
-    Task<TEntity> GetByIdAsync(int id);
+    Task<TEntity?> GetByIdAsync(int id);
 
     TEntity Create(TEntity entity);
 

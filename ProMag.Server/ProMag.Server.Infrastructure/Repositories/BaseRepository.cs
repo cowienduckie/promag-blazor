@@ -7,21 +7,21 @@ namespace ProMag.Server.Infrastructure.Repositories;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    protected DataContext DataContext { get; set; }
+    protected DataContext DataContext { get; }
 
     public BaseRepository(DataContext dataContext)
     {
-        this.DataContext = dataContext;
+        DataContext = dataContext;
     }
 
     public void Dispose()
     {
-        this.DataContext.Dispose();
+        DataContext.Dispose();
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await this.DataContext
+        return await DataContext
             .Set<TEntity>()
             .Where(e => !e.IsDelete)
             .AsNoTracking()
@@ -30,7 +30,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task<IEnumerable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
     {
-        return await this.DataContext
+        return await DataContext
             .Set<TEntity>()
             .Where(e => !e.IsDelete)
             .Where(expression)
@@ -38,16 +38,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             .ToListAsync();
     }
 
-    public async Task<TEntity> GetByIdAsync(int id)
+    public async Task<TEntity?> GetByIdAsync(int id)
     {
-        return await this.DataContext
+        return await DataContext
             .Set<TEntity>()
-            .FirstOrDefaultAsync(e => !e.IsDelete && e.Id == id) ?? throw new InvalidOperationException();
+            .FirstOrDefaultAsync(e => !e.IsDelete && e.Id == id);
     }
 
     public TEntity Create(TEntity entity)
     {
-        this.DataContext.Add(entity);
+        DataContext.Add(entity);
 
         return entity;
     }
@@ -57,7 +57,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         if (!IsExist(entity.Id)) return false;
 
         entity.LastModified = DateTime.UtcNow;
-        this.DataContext.Update(entity);
+        DataContext.Update(entity);
 
         return true;
     }
@@ -66,7 +66,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         if (!IsExist(id)) return false;
 
-        var entity = this.DataContext.Set<TEntity>()
+        var entity = DataContext.Set<TEntity>()
             .First(e => e.Id == id);
 
         entity.LastModified = DateTime.UtcNow;
@@ -77,11 +77,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public bool IsExist(int id)
     {
-        return this.DataContext.Set<TEntity>().Any(e => !e.IsDelete && e.Id == id);
+        return DataContext.Set<TEntity>().Any(e => !e.IsDelete && e.Id == id);
     }
 
     public async Task<bool> SaveAsync()
     {
-        return await this.DataContext.SaveChangesAsync() > 0;
+        return await DataContext.SaveChangesAsync() > 0;
     }
 }

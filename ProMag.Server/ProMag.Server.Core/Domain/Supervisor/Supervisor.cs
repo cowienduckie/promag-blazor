@@ -32,46 +32,88 @@ public class Supervisor : ISupervisor
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity
     {
-        var repository = RepositoryOf<TEntity>();
-        var entities = await repository.GetAllAsync();
+        try
+        {
+            var repository = RepositoryOf<TEntity>();
+            var entities = await repository.GetAllAsync();
 
-        SetCache(entities);
+            SetCache(entities);
 
-        return _mapper.Map<IEnumerable<TReadDto>>(entities);
+            return _mapper.Map<IEnumerable<TReadDto>>(entities);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public async Task<TReadDto> GetByIdAsync<TEntity, TReadDto>(int id) where TEntity : BaseEntity
+    public async Task<TReadDto?> GetByIdAsync<TEntity, TReadDto>(int id) where TEntity : BaseEntity
     {
-        var repository = RepositoryOf<TEntity>();
-        var entity = await repository.GetByIdAsync(id);
+        try
+        {
+            var repository = RepositoryOf<TEntity>();
+            var entity = GetCache<TEntity>(id) ?? await repository.GetByIdAsync(id);
 
-        SetCache(entity);
+            if (entity == null) return default;
 
-        return _mapper.Map<TReadDto>(entity);
+            SetCache(entity);
+
+            return _mapper.Map<TReadDto>(entity);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public TReadDto Create<TEntity, TReadDto>(TEntity entity) where TEntity : BaseEntity
+    public async Task<TReadDto> CreateAsync<TEntity, TCreateDto, TReadDto>(TCreateDto createDto) where TEntity : BaseEntity
+    {
+        try
+        {
+            var repository = RepositoryOf<TEntity>();
+            var entity = _mapper.Map<TEntity>(createDto);
+
+            repository.Create(entity);
+
+            var result = await repository.SaveAsync();
+            if (!result) throw new InvalidOperationException();
+
+            SetCache(entity);
+            return _mapper.Map<TReadDto>(entity);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<bool> UpdateAsync<TEntity, TUpdateDto>(TUpdateDto updateDto) where TEntity : BaseEntity
     {
         throw new NotImplementedException();
     }
 
-    public bool Update<TEntity>(TEntity entity) where TEntity : BaseEntity
+    public async Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
+            var repository = RepositoryOf<TEntity>();
 
-    public bool Delete<TEntity>(int id) where TEntity : BaseEntity
-    {
-        var repository = RepositoryOf<TEntity>();
+            repository.Delete(id);
 
-        return repository.Delete(id);
-    }
+            var result = await repository.SaveAsync();
 
-    public async Task<bool> SaveAsync<TEntity>() where TEntity : BaseEntity
-    {
-        var repository = RepositoryOf<TEntity>();
+            if (result) RemoveCache<TEntity>(id);
 
-        return await repository.SaveAsync();
+            return result;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private void SetCache<TEntity>(TEntity entity, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
@@ -91,7 +133,7 @@ public class Supervisor : ISupervisor
         }
     }
 
-    private TEntity GetCache<TEntity>(int id)
+    private TEntity? GetCache<TEntity>(int id)
     {
         return _cache.Get<TEntity>(GetCacheKey<TEntity>(id));
     }

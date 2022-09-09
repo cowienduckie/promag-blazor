@@ -9,13 +9,11 @@ public interface ISupervisor
 
     Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity;
 
-    Task<TReadDto> GetByIdAsync<TEntity, TReadDto>(int id) where TEntity : BaseEntity;
+    Task<TReadDto?> GetByIdAsync<TEntity, TReadDto>(int id) where TEntity : BaseEntity;
 
-    TReadDto Create<TEntity, TReadDto>(TEntity entity) where TEntity : BaseEntity;
+    Task<TReadDto> CreateAsync<TEntity, TCreateDto, TReadDto>(TCreateDto createDto) where TEntity : BaseEntity;
 
-    bool Update<TEntity>(TEntity entity) where TEntity : BaseEntity;
+    Task<bool> UpdateAsync<TEntity, TUpdateDto>(TUpdateDto updateDto) where TEntity : BaseEntity;
 
-    bool Delete<TEntity>(int id) where TEntity : BaseEntity;
-
-    Task<bool> SaveAsync<TEntity>() where TEntity : BaseEntity;
+    Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity;
 }
