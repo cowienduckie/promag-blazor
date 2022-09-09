@@ -24,11 +24,11 @@ public class User : IdentityUser
 
     [Required, Display(Name = "Create Time"), DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:HH:mm:ss dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-    public DateTime CreateTime { get; set; } = DateTime.Now;
+    public DateTime CreateTime { get; set; } = DateTime.UtcNow;
 
     [Required, Display(Name = "Last Modified"), DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:HH:mm:ss dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-    public DateTime LastModified { get; set; } = DateTime.Now;
+    public DateTime LastModified { get; set; } = DateTime.UtcNow;
 
     //
     public ICollection<Employee> Employees { get; set; }
