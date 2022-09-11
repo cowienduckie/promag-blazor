@@ -1,0 +1,15 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  solution: 'ProMag.Server/ProMag.Server.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+- script: dotnet build $(solution) --configuration $(buildConfiguration)
+  displayName: "dotnet build $(buildConfiguration)"
