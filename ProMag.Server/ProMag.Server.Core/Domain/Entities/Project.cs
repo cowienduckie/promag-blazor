@@ -28,10 +28,12 @@ public class Project : BaseEntity
 
 public class ProjectClient
 {
+    [Required]
     public int ProjectId { get; set; }
 
     public Project? Project { get; set; }
 
+    [Required]
     public int ClientId { get; set; }
 
     public Client? Client { get; set; }

@@ -13,23 +13,23 @@ public class DataContext : IdentityDbContext<User>
     {
     }
 
-    public DbSet<Employee> Employees { get; set; }
-    public DbSet<Team> Teams { get; set; }
-    public DbSet<TeamRole> TeamRoles { get; set; }
-    public DbSet<TeamMember> TeamMembers { get; set; }
-    public DbSet<Client> Clients { get; set; }
-    public DbSet<ClientContact> ClientContacts { get; set; }
-    public DbSet<TaskStatus> TaskStatuses { get; set; }
-    public DbSet<MainTask> MainTasks { get; set; }
-    public DbSet<Milestone> Milestones { get; set; }
-    public DbSet<MilestoneStatus> MilestoneStatuses { get; set; }
-    public DbSet<Project> Projects { get; set; }
-    public DbSet<ProjectStatus> ProjectStatuses { get; set; }
-    public DbSet<ProjectManager> ProjectManagers { get; set; }
-    public DbSet<Property> Properties { get; set; }
-    public DbSet<SubProperty> SubProperties { get; set; }
-    public DbSet<PropertyType> PropertyTypes { get; set; }
-    public DbSet<SubTask> SubTasks { get; set; }
+    public DbSet<Employee>? Employees { get; set; }
+    public DbSet<Team>? Teams { get; set; }
+    public DbSet<TeamRole>? TeamRoles { get; set; }
+    public DbSet<TeamMember>? TeamMembers { get; set; }
+    public DbSet<Client>? Clients { get; set; }
+    public DbSet<ClientContact>? ClientContacts { get; set; }
+    public DbSet<TaskStatus>? TaskStatuses { get; set; }
+    public DbSet<MainTask>? MainTasks { get; set; }
+    public DbSet<Milestone>? Milestones { get; set; }
+    public DbSet<MilestoneStatus>? MilestoneStatuses { get; set; }
+    public DbSet<Project>? Projects { get; set; }
+    public DbSet<ProjectStatus>? ProjectStatuses { get; set; }
+    public DbSet<ProjectManager>? ProjectManagers { get; set; }
+    public DbSet<Property>? Properties { get; set; }
+    public DbSet<SubProperty>? SubProperties { get; set; }
+    public DbSet<PropertyType>? PropertyTypes { get; set; }
+    public DbSet<SubTask>? SubTasks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
