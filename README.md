@@ -1,1 +1,1 @@
-# ProMag - A Project Management Tool
+# ProMag
