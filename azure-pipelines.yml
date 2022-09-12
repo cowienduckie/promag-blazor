@@ -13,3 +13,10 @@ steps:
 - task: UseDotNet@2
 - script: dotnet build $(solution) --configuration $(buildConfiguration)
   displayName: "dotnet build $(buildConfiguration)"
+- task: DotNetCoreCLI@2
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+    projects: 'ProMag.Server/*Test/*.csproj'
+    testRunTitle: 'xUnit Test Run'
+
