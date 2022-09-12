@@ -17,6 +17,6 @@ steps:
   displayName: dotnet test
   inputs:
     command: 'test'
-    projects: 'ProMag.Server/*Test/*.csproj'
+    projects: 'ProMag.Server/*UnitTest/*.csproj'
     testRunTitle: 'xUnit Test Run'
 
