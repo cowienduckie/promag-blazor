@@ -1,4 +1,5 @@
-﻿using ProMag.Server.Core.Domain.Entities;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Library.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
@@ -13,7 +14,7 @@ public interface ISupervisor
 
     Task<TReadDto> CreateAsync<TEntity, TCreateDto, TReadDto>(TCreateDto createDto) where TEntity : BaseEntity;
 
-    Task<bool> UpdateAsync<TEntity, TUpdateDto>(TUpdateDto updateDto) where TEntity : BaseEntity;
+    Task<bool> UpdateAsync<TEntity, TUpdateDto>(int id, TUpdateDto updateDto) where TEntity : BaseEntity;
 
     Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity;
 }

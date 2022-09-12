@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Xml.Schema;
+using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Caching.Memory;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
@@ -90,24 +92,18 @@ public class Supervisor : ISupervisor
         }
     }
 
-    public async Task<bool> UpdateAsync<TEntity, TUpdateDto>(TUpdateDto updateDto) where TEntity : BaseEntity
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity
+    public async Task<bool> UpdateAsync<TEntity, TUpdateDto>(int id, TUpdateDto updateDto) where TEntity : BaseEntity
     {
         try
         {
             var repository = RepositoryOf<TEntity>();
+            var entity = _mapper.Map<TEntity>(updateDto);
+            entity.Id = id;
 
-            repository.Delete(id);
+            if (!repository.Update(entity) || !await repository.SaveAsync()) return false;
 
-            var result = await repository.SaveAsync();
-
-            if (result) RemoveCache<TEntity>(id);
-
-            return result;
+            RemoveCache<TEntity>(id);
+            return true;
         }
         catch (Exception e)
         {
@@ -116,6 +112,26 @@ public class Supervisor : ISupervisor
         }
     }
 
+    public async Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity
+    {
+        try
+        {
+            var repository = RepositoryOf<TEntity>();
+
+            if (!repository.Delete(id) || !await repository.SaveAsync()) return false;
+
+            RemoveCache<TEntity>(id);
+            return true;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    #region Caching Methods
     private void SetCache<TEntity>(TEntity entity, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
     {
         var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
@@ -157,6 +173,7 @@ public class Supervisor : ISupervisor
 
         return defaultOptions;
     }
+    #endregion
 
     public PagedList<TEntity> GetPagedList<TEntity>(IList<TEntity> items, int pageIndex, int pageSize)
     {

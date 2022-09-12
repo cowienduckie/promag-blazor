@@ -13,6 +13,8 @@ public class MainTaskProfile : Profile
     {
         // MainTask mappers
         CreateMap<MainTask, MainTaskReadDto>();
+        CreateMap<MainTask, MainTaskUpdateDto>();
+        CreateMap<MainTaskCreateDto, MainTask>();
         CreateMap<MainTaskUpdateDto, MainTask>();
 
         // TaskStatus mappers

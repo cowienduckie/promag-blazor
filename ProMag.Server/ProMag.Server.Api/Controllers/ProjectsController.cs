@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System.Xml.XPath;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProMag.Server.Core.DataTransferObjects.CreateDtos;
 using ProMag.Server.Core.DataTransferObjects.ReadDtos;
 using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
+using ProMag.Server.Infrastructure.Migrations;
 
 namespace ProMag.Server.Api.Controllers;
 
@@ -18,7 +22,7 @@ public class ProjectsController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<ProjectReadDto>>>? GetAllAsync()
     {
         try
         {
@@ -33,7 +37,7 @@ public class ProjectsController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetByIdAsync(int id)
+    public async Task<ActionResult<ProjectReadDto>> GetByIdAsync(int id)
     {
         try
         {
@@ -65,15 +69,36 @@ public class ProjectsController : BaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync([FromBody] ProjectUpdateDto? updateDto)
+    public async Task<ActionResult> UpdateAsync(int id, [FromBody] ProjectUpdateDto? updateDto)
     {
         try
         {
             if (updateDto == null || !ModelState.IsValid) return BadRequest();
 
-            var result = await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(updateDto);
+            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto) ? NoContent() : StatusCode(500);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e);
+        }
+    }
 
-            return result ? NoContent() : StatusCode(500);
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> PartialUpdateAsync(int id, [FromBody] JsonPatchDocument<ProjectUpdateDto>? updatePatchDoc)
+    {
+        try
+        {
+            var updateDto = await Supervisor.GetByIdAsync<Project, ProjectUpdateDto>(id);
+            if (updateDto == null || updatePatchDoc == null || !ModelState.IsValid) return BadRequest();
+
+            updatePatchDoc.ApplyTo(updateDto, ModelState);
+
+            if (!TryValidateModel(updateDto))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto) ? NoContent() : StatusCode(500);
         }
         catch (Exception e)
         {
