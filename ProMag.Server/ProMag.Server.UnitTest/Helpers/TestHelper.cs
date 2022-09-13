@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
 using ProMag.Server.Infrastructure;
@@ -9,6 +11,7 @@ namespace ProMag.Server.UnitTest.Helpers;
 public class TestHelper
 {
     private readonly DataContext _context;
+    private readonly IServiceProvider _serviceProvider;
     public DataContext Context => _context;
 
     public TestHelper()
@@ -21,10 +24,20 @@ public class TestHelper
         _context = new DataContext(dbContextOptions);
         _context.Database.EnsureDeleted();
         _context.Database.EnsureCreated();
+
+        var server = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                //Test services
+            });
+        _serviceProvider = server.Services;
     }
 
     public IBaseRepository<TEntity> BaseRepositoryInMemory<TEntity>() where TEntity : BaseEntity
     {
-        return new BaseRepository<TEntity>(_context);
+        using var scope = _serviceProvider.CreateScope();
+        var repoType = scope.ServiceProvider.GetService(typeof(IBaseRepository<TEntity>))!.GetType();
+
+        return Activator.CreateInstance(repoType, _context) as IBaseRepository<TEntity> ?? throw new InvalidOperationException();
     }
 }

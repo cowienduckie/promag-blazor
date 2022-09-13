@@ -15,7 +15,11 @@ public static class ConfigureServices
 {
     public static void ConfigureRepositories(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IBaseRepository<Project>, ProjectRepository>();
+        services.AddScoped<IBaseRepository<Property>, PropertyRepository>();
+        services.AddScoped<IBaseRepository<MainTask>, MainTaskRepository>();
+        services.AddScoped<IBaseRepository<SubTask>, SubTaskRepository>();
     }
 
     public static void ConfigureSupervisor(this IServiceCollection services)

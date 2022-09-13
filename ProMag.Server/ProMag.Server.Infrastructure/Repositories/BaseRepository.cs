@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace ProMag.Server.Infrastructure.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
+public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected DataContext DataContext { get; }
 
-    public BaseRepository(DataContext dataContext)
+    protected BaseRepository(DataContext dataContext)
     {
         DataContext = dataContext;
     }
@@ -19,7 +19,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         DataContext.Dispose();
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await DataContext
             .Set<TEntity>()
@@ -28,7 +28,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
+    public virtual async Task<IEnumerable<TEntity>> GetByConditionAsync(Expression<Func<TEntity, bool>> expression)
     {
         return await DataContext
             .Set<TEntity>()
@@ -38,7 +38,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             .ToListAsync();
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public virtual async Task<TEntity?> GetByIdAsync(int id)
     {
         return await DataContext
             .Set<TEntity>()

@@ -28,6 +28,7 @@
     <ProjectReference Include="..\ProMag.Server.Infrastructure\ProMag.Server.Infrastructure.csproj" />
     <ProjectReference Include="..\ProMag.Server.Library\ProMag.Server.Library.csproj" />
     <InternalsVisibleTo Include="..\ProMag.Server.Library\ProMag.Server.IntegrationTest.csproj" />
+    <InternalsVisibleTo Include="..\ProMag.Server.Library\ProMag.Server.UnitTest.csproj" />
   </ItemGroup>
 
 </Project>

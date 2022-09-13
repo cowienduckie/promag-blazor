@@ -8,7 +8,7 @@ namespace ProMag.Server.UnitTest.Repositories;
 public abstract class BaseRepositoryTest<TEntity> : IDisposable where TEntity : BaseEntity
 {
     protected readonly TestHelper _helper;
-    protected readonly IBaseRepository<TEntity> _repository;
+    protected readonly IBaseRepository<TEntity>? _repository;
     protected readonly DataContext _context;
 
     protected BaseRepositoryTest()

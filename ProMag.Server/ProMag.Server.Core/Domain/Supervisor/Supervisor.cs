@@ -27,9 +27,10 @@ public class Supervisor : ISupervisor
 
     private IBaseRepository<TEntity> RepositoryOf<TEntity>() where TEntity : BaseEntity
     {
-        return _serviceProvider
-            .GetService(typeof(IBaseRepository<TEntity>)) as IBaseRepository<TEntity>
-               ?? throw new InvalidOperationException();
+        var repo = _serviceProvider
+            .GetService(typeof(IBaseRepository<TEntity>));
+
+        return repo as IBaseRepository<TEntity> ?? throw new InvalidOperationException();
     }
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity
