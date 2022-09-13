@@ -66,14 +66,14 @@ public static class ConfigureServices
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "Smart Living API",
+                Title = "ProMag API",
                 Contact = new OpenApiContact
                 {
                     Name = "Minh Tran",
                     Url = new Uri("https://lowkeycode.me")
                 }
             });
-            c.OperationFilter<AddRequiredHeaderParameter>();
+            //c.OperationFilter<AddRequiredHeaderParameter>();
         });
     }
 
