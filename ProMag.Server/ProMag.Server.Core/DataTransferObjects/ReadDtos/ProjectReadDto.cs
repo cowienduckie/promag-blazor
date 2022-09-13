@@ -11,6 +11,8 @@ public class ProjectReadDto
     public ProjectStatusReadDto? Status { get; set; }
 
     //public List<MainTaskReadDto>? MainTasks { get; set; }
+
+    public List<PropertyReadDto>? DefaultProperties { get; set; }
 }
 
 public class ProjectStatusReadDto

@@ -15,6 +15,7 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
         return await DataContext.Projects
             .Where(e => !e.IsDelete)
             .Include(e => e.Status)
+            .Include(e => e.MainTasks)
             .Include(e => e.DefaultProperties)
             .AsNoTracking()
             .ToListAsync();
@@ -25,6 +26,7 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
         return await DataContext.Projects
             .Where(e => !e.IsDelete && e.Id == id)
             .Include(e => e.Status)
+            .Include(e => e.MainTasks)
             .Include(e => e.DefaultProperties)
             .FirstOrDefaultAsync(); 
     }

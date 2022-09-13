@@ -11,7 +11,7 @@ public static class ConfigureConnections
     public static IServiceCollection AddConnectionProvider(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connection = configuration["ConnectionString"] ?? "";
+        var connection = configuration["LocalConnectionString"] ?? configuration["ConnectionString"];
 
         services.AddDbContextPool<DataContext>((optionsBuilder) =>
         {

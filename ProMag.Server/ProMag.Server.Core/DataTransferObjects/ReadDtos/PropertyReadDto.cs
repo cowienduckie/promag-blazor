@@ -6,7 +6,7 @@ public class PropertyReadDto
 
     public string? Name { get; set; }
 
-    public int TypeId { get; set; }
+    //public int TypeId { get; set; }
 
     public PropertyTypeReadDto? Type { get; set; }
 
