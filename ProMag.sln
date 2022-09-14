@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Server.Core", "ProMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Server.Infrastructure", "ProMag.Server\ProMag.Server.Infrastructure\ProMag.Server.Infrastructure.csproj", "{2DC92B49-1B0B-4FA7-B0E3-1EF88781E7D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Server.Library", "ProMag.Server\ProMag.Server.Library\ProMag.Server.Library.csproj", "{BAB109C8-A24E-401A-94C4-30719FEE4BA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Server.Shared", "ProMag.Server\ProMag.Server.Library\ProMag.Server.Shared.csproj", "{BAB109C8-A24E-401A-94C4-30719FEE4BA8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Server.UnitTest", "ProMag.Server\ProMag.Server.UnitTest\ProMag.Server.UnitTest.csproj", "{205B8329-810F-469E-86AE-226FB2055177}"
 EndProject

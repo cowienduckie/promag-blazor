@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Caching.Memory;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
-using ProMag.Server.Library.Constants;
-using ProMag.Server.Library.DataTypes;
+using ProMag.Server.Shared.Constants;
+using ProMag.Server.Shared.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
