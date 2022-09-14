@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using ProMag.Server.Core.Domain.Entities;
-using ProMag.Server.Library.DataTypes;
+using ProMag.Shared.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
