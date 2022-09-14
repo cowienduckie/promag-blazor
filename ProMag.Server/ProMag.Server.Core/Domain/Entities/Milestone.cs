@@ -4,8 +4,7 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Milestone : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public DateTime? DueDate { get; set; }
 
@@ -24,8 +23,7 @@ public class Milestone : BaseEntity
 
 public class MilestoneStatus : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public ICollection<Milestone>? Milestones { get; set; }
 }

@@ -8,7 +8,7 @@ public class MainTaskReadDto
 
     public int ProjectId { get; set; }
 
-    public int? MilestoneId { get; set; }
+    //public int? MilestoneId { get; set; }
 
     public TaskStatusReadDto? Status { get; set; }
 

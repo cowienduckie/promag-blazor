@@ -8,5 +8,5 @@ public class SubTaskReadDto
 
     public string? Description { get; set; }
 
-    public int MainTaskId { get; set; }
+    //public int MainTaskId { get; set; }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProMag.Server.Infrastructure.Extensions;
 
@@ -20,7 +20,7 @@ public static class ModelBuilderExtension
             .Where(it => it.i != null && !it.t.IsAbstract)
             .Select(it => (et: it.i.GetGenericArguments()[0], cfgObj: Activator.CreateInstance(it.t)))
             .Select(it =>
-                applyConfigurationMethodInfo.MakeGenericMethod(it.et).Invoke(modelBuilder, new[] { it.cfgObj }))
+                applyConfigurationMethodInfo.MakeGenericMethod(it.et).Invoke(modelBuilder, new[] {it.cfgObj}))
             .ToList();
     }
 

@@ -15,7 +15,11 @@ public static class ConfigureServices
 {
     public static void ConfigureRepositories(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IBaseRepository<Project>, ProjectRepository>();
+        services.AddScoped<IBaseRepository<Property>, PropertyRepository>();
+        services.AddScoped<IBaseRepository<MainTask>, MainTaskRepository>();
+        services.AddScoped<IBaseRepository<SubTask>, SubTaskRepository>();
     }
 
     public static void ConfigureSupervisor(this IServiceCollection services)
@@ -66,14 +70,15 @@ public static class ConfigureServices
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "Smart Living API",
+                Title = "ProMag API",
+                Description = "A Project Management Tool",
                 Contact = new OpenApiContact
                 {
                     Name = "Minh Tran",
                     Url = new Uri("https://lowkeycode.me")
                 }
             });
-            c.OperationFilter<AddRequiredHeaderParameter>();
+            //c.OperationFilter<AddRequiredHeaderParameter>();
         });
     }
 
