@@ -4,7 +4,7 @@ using ProMag.Server.Core.DataTransferObjects.ReadDtos;
 using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 
-namespace ProMag.Server.Core.DataTransferObjects.DtoProfiles;
+namespace ProMag.Server.Core.DataTransferObjects.Mappings;
 
 public class PropertyProfile : Profile
 {
@@ -12,9 +12,8 @@ public class PropertyProfile : Profile
     {
         // Property mappers
         CreateMap<Property, PropertyReadDto>();
-        CreateMap<Property, PropertyUpdateDto>();
+        CreateMap<Property, PropertyUpdateDto>().ReverseMap();
         CreateMap<PropertyCreateDto, Property>();
-        CreateMap<PropertyUpdateDto, Property>();
 
         // PropertyType mappers
         CreateMap<PropertyType, PropertyTypeReadDto>();

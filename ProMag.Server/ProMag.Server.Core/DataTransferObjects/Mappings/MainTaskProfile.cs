@@ -5,7 +5,7 @@ using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 
-namespace ProMag.Server.Core.DataTransferObjects.DtoProfiles;
+namespace ProMag.Server.Core.DataTransferObjects.Mappings;
 
 public class MainTaskProfile : Profile
 {
@@ -13,9 +13,8 @@ public class MainTaskProfile : Profile
     {
         // MainTask mappers
         CreateMap<MainTask, MainTaskReadDto>();
-        CreateMap<MainTask, MainTaskUpdateDto>();
+        CreateMap<MainTask, MainTaskUpdateDto>().ReverseMap();
         CreateMap<MainTaskCreateDto, MainTask>();
-        CreateMap<MainTaskUpdateDto, MainTask>();
 
         // TaskStatus mappers
         CreateMap<TaskStatus, TaskStatusReadDto>();
