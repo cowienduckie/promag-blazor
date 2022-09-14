@@ -1,4 +1,4 @@
-﻿namespace ProMag.Server.Shared.Constants;
+﻿namespace ProMag.Server.Library.Constants;
 
 public static class SystemConstants
 {

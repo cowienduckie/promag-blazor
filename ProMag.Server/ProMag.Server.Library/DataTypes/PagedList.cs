@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace ProMag.Server.Shared.DataTypes;
+namespace ProMag.Server.Library.DataTypes;
 
 public interface IPagedList<T> : IList<T>
 {

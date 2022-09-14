@@ -45,7 +45,4 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-namespace ProMag.Server.Api
-{
-    public partial class Program { }
-}
+public partial class Program { }
