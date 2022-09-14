@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Configurations\.gitkeep" />
+    <None Remove="Extensions\.gitkeep" />
+    <None Remove="Models\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Configurations\.gitkeep" />
+    <Compile Include="Extensions\.gitkeep" />
+    <Compile Include="Models\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
