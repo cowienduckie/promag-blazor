@@ -28,11 +28,18 @@ steps:
 #     projects: $(unitTestPath)
 #     testRunTitle: 'xUnit Test Run'
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
+  displayName: 'dotnet publish API'
   inputs:
     command: publish
     publishWebProjects: false
-    projects: $(apiProjectPath), $(blazorClientPath)
+    projects: $(apiProjectPath)
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish Blazor'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: $(blazorClientPath)
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
