@@ -1,6 +1,6 @@
-﻿using ProMag.Server.Core.Domain.Entities;
+﻿using FluentAssertions;
+using ProMag.Server.Core.Domain.Entities;
 using Xunit;
-using FluentAssertions;
 
 namespace ProMag.Server.UnitTest.Repositories;
 

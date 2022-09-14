@@ -24,6 +24,6 @@ public class PropertyRepository : BaseRepository<Property>, IPropertyRepository
         return await DataContext.Properties
             .Where(e => !e.IsDelete && e.Id == id)
             .Include(e => e.Type)
-            .FirstOrDefaultAsync(); 
+            .FirstOrDefaultAsync();
     }
 }

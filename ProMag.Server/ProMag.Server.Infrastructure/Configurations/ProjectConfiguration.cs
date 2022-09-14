@@ -24,10 +24,7 @@ public class ProjectConfiguration : BaseConfiguration<Project>
                     .HasOne(pc => pc.Project)
                     .WithMany(p => p.ProjectClients)
                     .HasForeignKey(pc => pc.ProjectId),
-                e =>
-                {
-                    e.HasKey(pc => new { pc.ProjectId, pc.ClientId });
-                });
+                e => { e.HasKey(pc => new {pc.ProjectId, pc.ClientId}); });
 
         entity.HasMany(e => e.ProjectManagers)
             .WithOne(pm => pm.Project)

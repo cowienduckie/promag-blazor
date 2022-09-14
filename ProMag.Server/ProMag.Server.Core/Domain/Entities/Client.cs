@@ -4,8 +4,7 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Client : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public string? Description { get; set; }
 
@@ -18,14 +17,11 @@ public class Client : BaseEntity
 
 public class ClientContact : BaseEntity
 {
-    [Required]
-    public string? DisplayName { get; set; }
+    [Required] public string? DisplayName { get; set; }
 
-    [Required]
-    public string? FirstName { get; set; }
+    [Required] public string? FirstName { get; set; }
 
-    [Required]
-    public string? LastName { get; set; }
+    [Required] public string? LastName { get; set; }
 
     public string? FullName { get; set; }
 
@@ -37,8 +33,7 @@ public class ClientContact : BaseEntity
 
     public string? Notes { get; set; }
 
-    [Required]
-    public int ClientId { get; set; }
+    [Required] public int ClientId { get; set; }
 
     public Client? Client { get; set; }
 }

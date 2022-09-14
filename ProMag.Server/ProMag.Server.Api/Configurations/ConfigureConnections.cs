@@ -1,8 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using ProMag.Server.Infrastructure;
-using ProMag.Server.Infrastructure.Extensions;
 
 namespace ProMag.Server.Api.Configurations;
 
@@ -13,10 +11,7 @@ public static class ConfigureConnections
     {
         var connection = configuration["LocalConnectionString"] ?? configuration["ConnectionString"];
 
-        services.AddDbContextPool<DataContext>((optionsBuilder) =>
-        {
-            optionsBuilder.UseSqlServer(connection);
-        });
+        services.AddDbContextPool<DataContext>(optionsBuilder => { optionsBuilder.UseSqlServer(connection); });
 
         services.AddSingleton(new SqlConnection(connection));
 

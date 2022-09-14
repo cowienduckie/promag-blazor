@@ -4,11 +4,9 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Property : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
-    [Required]
-    public int TypeId { get; set; }
+    [Required] public int TypeId { get; set; }
 
     public PropertyType? Type { get; set; }
 
@@ -27,21 +25,18 @@ public class Property : BaseEntity
 
 public class PropertyType : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public ICollection<Property>? Properties { get; set; }
 }
 
 public class SubProperty : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public string? ColorHex { get; set; }
 
-    [Required]
-    public int PropertyId { get; set; }
+    [Required] public int PropertyId { get; set; }
 
     public Property? Property { get; set; }
 }

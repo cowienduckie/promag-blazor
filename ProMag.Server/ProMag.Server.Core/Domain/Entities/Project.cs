@@ -4,7 +4,8 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class Project : BaseEntity
 {
-    [Required, Display(Name = "Project Name")]
+    [Required]
+    [Display(Name = "Project Name")]
     public string? Name { get; set; }
 
     public string? Description { get; set; }
@@ -28,21 +29,18 @@ public class Project : BaseEntity
 
 public class ProjectClient
 {
-    [Required]
-    public int ProjectId { get; set; }
+    [Required] public int ProjectId { get; set; }
 
     public Project? Project { get; set; }
 
-    [Required]
-    public int ClientId { get; set; }
+    [Required] public int ClientId { get; set; }
 
     public Client? Client { get; set; }
 }
 
 public class ProjectStatus : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     //
     public ICollection<Project>? Projects { get; set; }

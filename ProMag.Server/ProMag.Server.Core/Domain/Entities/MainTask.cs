@@ -5,21 +5,17 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class MainTask : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
-    [Required]
-    public int ProjectId { get; set; }
+    [Required] public int ProjectId { get; set; }
 
     public Project? Project { get; set; }
 
-    [AllowNull]
-    public int? MilestoneId { get; set; }
+    [AllowNull] public int? MilestoneId { get; set; }
 
     public Milestone? Milestone { get; set; }
 
-    [Required]
-    public int StatusId { get; set; }
+    [Required] public int StatusId { get; set; }
 
     public TaskStatus? Status { get; set; }
 
@@ -30,8 +26,7 @@ public class MainTask : BaseEntity
 
 public class TaskStatus : BaseEntity
 {
-    [Required]
-    public string? Name { get; set; }
+    [Required] public string? Name { get; set; }
 
     public ICollection<MainTask>? MainTasks { get; set; }
 }

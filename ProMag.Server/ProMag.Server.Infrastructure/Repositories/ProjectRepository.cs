@@ -28,6 +28,6 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
             .Include(e => e.Status)
             .Include(e => e.MainTasks)
             .Include(e => e.DefaultProperties)
-            .FirstOrDefaultAsync(); 
+            .FirstOrDefaultAsync();
     }
 }

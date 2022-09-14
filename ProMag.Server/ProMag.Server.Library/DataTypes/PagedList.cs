@@ -17,18 +17,6 @@ public interface IPagedList<T> : IList<T>
 [Serializable]
 public class PagedList<T> : List<T>, IPagedList<T>
 {
-    public int PageIndex { get; }
-
-    public int PageSize { get; }
-
-    public int TotalCount { get; }
-
-    public int TotalPage { get; }
-
-    public bool HasPreviousPage => PageIndex > 0;
-
-    public bool HasNextPage => PageIndex < TotalPage;
-
     public PagedList()
     {
         PageIndex = 0;
@@ -100,6 +88,18 @@ public class PagedList<T> : List<T>, IPagedList<T>
 
         AddRange(source);
     }
+
+    public int PageIndex { get; }
+
+    public int PageSize { get; }
+
+    public int TotalCount { get; }
+
+    public int TotalPage { get; }
+
+    public bool HasPreviousPage => PageIndex > 0;
+
+    public bool HasNextPage => PageIndex < TotalPage;
 
     public JObject ToJObject()
     {

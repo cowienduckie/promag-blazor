@@ -28,6 +28,6 @@ public class MainTaskRepository : BaseRepository<MainTask>, IMainTaskRepository
             .Include(e => e.Status)
             .Include(e => e.Properties)
             .Include(e => e.SubTasks)
-            .FirstOrDefaultAsync(); 
+            .FirstOrDefaultAsync();
     }
 }

@@ -1,18 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
-using System.Linq.Expressions;
 
 namespace ProMag.Server.Infrastructure.Repositories;
 
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    protected DataContext DataContext { get; }
-
     protected BaseRepository(DataContext dataContext)
     {
         DataContext = dataContext;
     }
+
+    protected DataContext DataContext { get; }
 
     public void Dispose()
     {

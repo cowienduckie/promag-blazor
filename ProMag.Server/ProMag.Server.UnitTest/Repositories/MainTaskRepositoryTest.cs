@@ -1,6 +1,6 @@
-﻿using ProMag.Server.Core.Domain.Entities;
+﻿using FluentAssertions;
+using ProMag.Server.Core.Domain.Entities;
 using Xunit;
-using FluentAssertions;
 using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 
 namespace ProMag.Server.UnitTest.Repositories;
@@ -20,13 +20,13 @@ public class MainTaskRepositoryTest : BaseRepositoryTest<MainTask>
         {
             Id = 12,
             Name = "MainTask1",
-            StatusId = 1,
+            StatusId = 1
         };
         var mainTask2 = new MainTask
         {
             Id = 123,
             Name = "MainTask2",
-            StatusId = 1,
+            StatusId = 1
         };
 
         _context.TaskStatuses.Add(taskStatus);
@@ -58,7 +58,7 @@ public class MainTaskRepositoryTest : BaseRepositoryTest<MainTask>
         {
             Id = mainTaskId,
             Name = "MainTask",
-            StatusId = statusId,
+            StatusId = statusId
         });
         await _context.SaveChangesAsync();
 

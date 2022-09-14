@@ -47,5 +47,7 @@ app.Run();
 
 namespace ProMag.Server.Api
 {
-    public partial class Program { }
+    public class Program
+    {
+    }
 }

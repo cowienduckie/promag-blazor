@@ -1,6 +1,6 @@
-﻿using ProMag.Server.Core.Domain.Entities;
+﻿using FluentAssertions;
+using ProMag.Server.Core.Domain.Entities;
 using Xunit;
-using FluentAssertions;
 
 namespace ProMag.Server.UnitTest.Repositories;
 
@@ -20,7 +20,7 @@ public class SubTaskRepositoryTest : BaseRepositoryTest<SubTask>
         {
             Id = 123,
             Name = "ProMag",
-            Description = "A subTask management subTask",
+            Description = "A subTask management subTask"
         };
 
         _context.SubTasks?.Add(subTask1);
@@ -45,7 +45,7 @@ public class SubTaskRepositoryTest : BaseRepositoryTest<SubTask>
         {
             Id = subTaskId,
             Name = "SubTask",
-            Description = "SubTask Description",
+            Description = "SubTask Description"
         });
         await _context.SaveChangesAsync();
 
