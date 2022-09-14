@@ -5,9 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  solutionPath: 'ProMag.Server/ProMag.Server.sln'
+  solutionPath: 'ProMag.sln'
   unitTestPath: 'ProMag.Server/*UnitTest/*.csproj'
   apiProjectPath: 'ProMag.Server/*Api/*.csproj'
+  blazorClientPath: 'ProMag.Client/*Blazor/*App/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -30,7 +31,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: $(apiProjectPath)
+    projects: $(apiProjectPath), $(blazorClientPath)
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
