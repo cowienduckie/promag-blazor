@@ -1,0 +1,349 @@
+Table "dbo"."Assignment" {
+  "Id" int [not null, increment]
+  "SubTaskId" int [not null]
+  "EmployeeId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Client" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "Description" nvarchar(max)
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."ClientContact" {
+  "Id" int [not null, increment]
+  "DisplayName" nvarchar(max) [not null]
+  "FirstName" nvarchar(max) [not null, default: `N,[object Object]`]
+  "LastName" nvarchar(max) [not null, default: `N,[object Object]`]
+  "FullName" nvarchar(max)
+  "Title" nvarchar(max)
+  "Phone" nvarchar(max)
+  "Email" nvarchar(max)
+  "Notes" nvarchar(max)
+  "ClientId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Employee" {
+  "Id" int [not null, increment]
+  "UserId" nvarchar(450) [not null]
+  "Code" nvarchar(max) [not null]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."MainTask" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "ProjectId" int [not null]
+  "MilestoneId" int
+  "StatusId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Milestone" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "DueDate" datetime2(7)
+  "Deliverables" nvarchar(max)
+  "StatusId" int [not null]
+  "ProjectId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."MilestoneStatus" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Project" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "Description" nvarchar(max)
+  "StatusId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."ProjectClient" {
+  "ProjectId" int [not null]
+  "ClientId" int [not null]
+
+Indexes {
+  (ProjectId, ClientId) [pk]
+}
+}
+
+Table "dbo"."ProjectManager" {
+  "Id" int [not null, increment]
+  "UserId" nvarchar(450) [not null]
+  "ProjectId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."ProjectStatus" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Property" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "TypeId" int [not null]
+  "MainTaskId" int
+  "ProjectId" int
+  "Value" nvarchar(max)
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."PropertyType" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."RoleClaims" {
+  "Id" int [not null, increment]
+  "RoleId" nvarchar(450) [not null]
+  "ClaimType" nvarchar(max)
+  "ClaimValue" nvarchar(max)
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Roles" {
+  "Id" nvarchar(450) [not null]
+  "Name" nvarchar(256)
+  "NormalizedName" nvarchar(256)
+  "ConcurrencyStamp" nvarchar(max)
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."SubProperty" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "ColorHex" nvarchar(max)
+  "PropertyId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."SubTask" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "Description" nvarchar(max)
+  "MainTaskId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."TaskStatus" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."Team" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."TeamMember" {
+  "Id" int [not null, increment]
+  "TeamId" int [not null]
+  "EmployeeId" int [not null]
+  "TeamRoleId" int [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."TeamRole" {
+  "Id" int [not null, increment]
+  "Name" nvarchar(max) [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."UserClaims" {
+  "Id" int [not null, increment]
+  "UserId" nvarchar(450) [not null]
+  "ClaimType" nvarchar(max)
+  "ClaimValue" nvarchar(max)
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."UserLogins" {
+  "LoginProvider" nvarchar(450) [not null]
+  "ProviderKey" nvarchar(450) [not null]
+  "ProviderDisplayName" nvarchar(max)
+  "UserId" nvarchar(450) [not null]
+
+Indexes {
+  (LoginProvider, ProviderKey) [pk]
+}
+}
+
+Table "dbo"."UserRoles" {
+  "UserId" nvarchar(450) [not null]
+  "RoleId" nvarchar(450) [not null]
+
+Indexes {
+  (UserId, RoleId) [pk]
+}
+}
+
+Table "dbo"."Users" {
+  "Id" nvarchar(450) [not null]
+  "FirstName" nvarchar(max) [not null]
+  "LastName" nvarchar(max) [not null]
+  "DateOfBirth" datetime2(7)
+  "IsProjectManager" bit [not null]
+  "IsDelete" bit [not null]
+  "CreateTime" datetime2(7) [not null]
+  "LastModified" datetime2(7) [not null]
+  "UserName" nvarchar(256)
+  "NormalizedUserName" nvarchar(256)
+  "Email" nvarchar(256)
+  "NormalizedEmail" nvarchar(256)
+  "EmailConfirmed" bit [not null]
+  "PasswordHash" nvarchar(max)
+  "SecurityStamp" nvarchar(max)
+  "ConcurrencyStamp" nvarchar(max)
+  "PhoneNumber" nvarchar(max)
+  "PhoneNumberConfirmed" bit [not null]
+  "TwoFactorEnabled" bit [not null]
+  "LockoutEnd" datetimeoffset(7)
+  "LockoutEnabled" bit [not null]
+  "AccessFailedCount" int [not null]
+
+Indexes {
+  Id [pk]
+}
+}
+
+Table "dbo"."UserTokens" {
+  "UserId" nvarchar(450) [not null]
+  "LoginProvider" nvarchar(450) [not null]
+  "Name" nvarchar(450) [not null]
+  "Value" nvarchar(max)
+
+Indexes {
+  (UserId, LoginProvider, Name) [pk]
+}
+}
