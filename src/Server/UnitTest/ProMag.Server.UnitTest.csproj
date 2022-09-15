@@ -40,9 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProMag.Server.Api\ProMag.Server.Api.csproj" />
-    <ProjectReference Include="..\ProMag.Server.Core\ProMag.Server.Core.csproj" />
-    <ProjectReference Include="..\ProMag.Server.Infrastructure\ProMag.Server.Infrastructure.csproj" />
+    <ProjectReference Include="..\API\ProMag.Server.Api.csproj" />
+    <ProjectReference Include="..\Core\ProMag.Server.Core.csproj" />
+    <ProjectReference Include="..\Infrastructure\ProMag.Server.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

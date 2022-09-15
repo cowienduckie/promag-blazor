@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProMag.Server.Library\ProMag.Shared.csproj" />
+    <ProjectReference Include="..\..\Shared\ProMag.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

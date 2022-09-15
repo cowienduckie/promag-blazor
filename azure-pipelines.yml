@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  solutionPath: 'ProMag.sln'
-  unitTestPath: 'ProMag.Server/*UnitTest/*.csproj'
-  apiProjectPath: 'ProMag.Server/*Api/*.csproj'
-  blazorClientPath: 'ProMag.Client/*Blazor/*App/*.csproj'
+  solutionPath: 'src/ProMag.sln'
+  unitTestPath: 'src/Server/UnitTest/*.csproj'
+  apiProjectPath: 'src/Server/API/*.csproj'
+  blazorClientPath: 'src/Clients/Blazor/App/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 

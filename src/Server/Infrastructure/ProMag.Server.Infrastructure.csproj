@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProMag.Server.Core\ProMag.Server.Core.csproj" />
+    <ProjectReference Include="..\Core\ProMag.Server.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
