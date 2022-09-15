@@ -1,6 +1,6 @@
-﻿namespace ProMag.Server.Core.DataTransferObjects.UpdateDtos;
+﻿namespace ProMag.Shared.DataTransferObjects.CreateDtos;
 
-public class PropertyUpdateDto
+public class PropertyCreateDto
 {
     public string? Name { get; set; }
 

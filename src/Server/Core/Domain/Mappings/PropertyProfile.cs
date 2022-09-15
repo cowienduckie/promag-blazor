@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ProMag.Server.Core.DataTransferObjects.CreateDtos;
-using ProMag.Server.Core.DataTransferObjects.ReadDtos;
-using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
+using ProMag.Shared.DataTransferObjects.CreateDtos;
+using ProMag.Shared.DataTransferObjects.ReadDtos;
+using ProMag.Shared.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 
-namespace ProMag.Server.Core.DataTransferObjects.Mappings;
+namespace ProMag.Server.Core.Domain.Mappings;
 
 public class PropertyProfile : Profile
 {

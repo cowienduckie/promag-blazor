@@ -1,4 +1,4 @@
-﻿namespace ProMag.Server.Core.DataTransferObjects.UpdateDtos;
+﻿namespace ProMag.Shared.DataTransferObjects.UpdateDtos;
 
 public class ProjectUpdateDto
 {

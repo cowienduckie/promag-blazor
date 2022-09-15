@@ -1,4 +1,4 @@
-﻿namespace ProMag.Server.Core.DataTransferObjects.CreateDtos;
+﻿namespace ProMag.Shared.DataTransferObjects.CreateDtos;
 
 public class SubTaskCreateDto
 {

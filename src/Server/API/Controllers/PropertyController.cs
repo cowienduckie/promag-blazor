@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using ProMag.Server.Core.DataTransferObjects.CreateDtos;
-using ProMag.Server.Core.DataTransferObjects.ReadDtos;
-using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
+using ProMag.Shared.DataTransferObjects.CreateDtos;
+using ProMag.Shared.DataTransferObjects.ReadDtos;
+using ProMag.Shared.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
 

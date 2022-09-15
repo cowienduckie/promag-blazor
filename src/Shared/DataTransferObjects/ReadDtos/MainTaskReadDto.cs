@@ -1,4 +1,4 @@
-﻿namespace ProMag.Server.Core.DataTransferObjects.ReadDtos;
+﻿namespace ProMag.Shared.DataTransferObjects.ReadDtos;
 
 public class MainTaskReadDto
 {
