@@ -6,13 +6,14 @@ namespace ProMag.Server.Api.Controllers;
 
 public abstract class BaseController : ControllerBase
 {
-    protected User? CurrentUser => (User?)HttpContext.Items["User"];
     protected readonly ISupervisor Supervisor;
 
     protected BaseController(ISupervisor supervisor)
     {
         Supervisor = supervisor;
     }
+
+    protected User? CurrentUser => (User?) HttpContext.Items["User"];
 
     protected ActionResult HandleException(Exception e)
     {

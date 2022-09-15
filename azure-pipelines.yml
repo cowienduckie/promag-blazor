@@ -5,9 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  solutionPath: 'ProMag.Server/ProMag.Server.sln'
+  solutionPath: 'ProMag.sln'
   unitTestPath: 'ProMag.Server/*UnitTest/*.csproj'
   apiProjectPath: 'ProMag.Server/*Api/*.csproj'
+  blazorClientPath: 'ProMag.Client/*Blazor/*App/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -19,18 +20,26 @@ steps:
     command: 'build'
     projects: '$(solutionPath)'
     arguments: '--configuration $(buildConfiguration)'
+    
+# - task: DotNetCoreCLI@2
+#   displayName: dotnet test
+#   inputs:
+#     command: 'test'
+#     projects: $(unitTestPath)
+#     testRunTitle: 'xUnit Test Run'
 - task: DotNetCoreCLI@2
-  displayName: dotnet test
-  inputs:
-    command: 'test'
-    projects: $(unitTestPath)
-    testRunTitle: 'xUnit Test Run'
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
+  displayName: 'dotnet publish API'
   inputs:
     command: publish
     publishWebProjects: false
     projects: $(apiProjectPath)
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish Blazor'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: $(blazorClientPath)
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'

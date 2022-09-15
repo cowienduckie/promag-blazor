@@ -4,7 +4,8 @@ namespace ProMag.Server.Core.Domain.Entities;
 
 public class TeamRole : BaseEntity
 {
-    [Required, Display(Name = "Team Role Name")]
+    [Required]
+    [Display(Name = "Team Role Name")]
     public string? Name { get; set; }
 
     //

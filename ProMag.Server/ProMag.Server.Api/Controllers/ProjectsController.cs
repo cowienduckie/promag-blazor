@@ -1,14 +1,11 @@
-﻿using System.Xml.XPath;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProMag.Server.Core.DataTransferObjects.CreateDtos;
 using ProMag.Server.Core.DataTransferObjects.ReadDtos;
 using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
-using ProMag.Server.Infrastructure.Migrations;
 
 namespace ProMag.Server.Api.Controllers;
 
@@ -75,7 +72,9 @@ public class ProjectsController : BaseController
         {
             if (updateDto == null || !ModelState.IsValid) return BadRequest();
 
-            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto) ? NoContent() : StatusCode(500);
+            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto)
+                ? NoContent()
+                : StatusCode(500);
         }
         catch (Exception e)
         {
@@ -84,7 +83,8 @@ public class ProjectsController : BaseController
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult> PartialUpdateAsync(int id, [FromBody] JsonPatchDocument<ProjectUpdateDto>? updatePatchDoc)
+    public async Task<ActionResult> PartialUpdateAsync(int id,
+        [FromBody] JsonPatchDocument<ProjectUpdateDto>? updatePatchDoc)
     {
         try
         {
@@ -93,12 +93,11 @@ public class ProjectsController : BaseController
 
             updatePatchDoc.ApplyTo(updateDto, ModelState);
 
-            if (!TryValidateModel(updateDto))
-            {
-                return ValidationProblem(ModelState);
-            }
+            if (!TryValidateModel(updateDto)) return ValidationProblem(ModelState);
 
-            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto) ? NoContent() : StatusCode(500);
+            return await Supervisor.UpdateAsync<Project, ProjectUpdateDto>(id, updateDto)
+                ? NoContent()
+                : StatusCode(500);
         }
         catch (Exception e)
         {

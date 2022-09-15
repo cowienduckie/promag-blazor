@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -39,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProMag.Server.Api\ProMag.Server.Api.csproj" />
     <ProjectReference Include="..\ProMag.Server.Core\ProMag.Server.Core.csproj" />
     <ProjectReference Include="..\ProMag.Server.Infrastructure\ProMag.Server.Infrastructure.csproj" />
   </ItemGroup>

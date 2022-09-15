@@ -1,11 +1,9 @@
-﻿using System.Xml.Schema;
-using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch;
+﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
-using ProMag.Server.Library.Constants;
-using ProMag.Server.Library.DataTypes;
+using ProMag.Shared.Constants;
+using ProMag.Shared.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
@@ -23,13 +21,6 @@ public class Supervisor : ISupervisor
         _cache = cache;
         _mapper = mapper;
         _serviceProvider = serviceProvider;
-    }
-
-    private IBaseRepository<TEntity> RepositoryOf<TEntity>() where TEntity : BaseEntity
-    {
-        return _serviceProvider
-            .GetService(typeof(IBaseRepository<TEntity>)) as IBaseRepository<TEntity>
-               ?? throw new InvalidOperationException();
     }
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity
@@ -70,7 +61,8 @@ public class Supervisor : ISupervisor
         }
     }
 
-    public async Task<TReadDto> CreateAsync<TEntity, TCreateDto, TReadDto>(TCreateDto createDto) where TEntity : BaseEntity
+    public async Task<TReadDto> CreateAsync<TEntity, TCreateDto, TReadDto>(TCreateDto createDto)
+        where TEntity : BaseEntity
     {
         try
         {
@@ -122,7 +114,6 @@ public class Supervisor : ISupervisor
 
             RemoveCache<TEntity>(id);
             return true;
-
         }
         catch (Exception e)
         {
@@ -131,7 +122,23 @@ public class Supervisor : ISupervisor
         }
     }
 
+    public PagedList<TEntity> GetPagedList<TEntity>(IList<TEntity> items, int pageIndex, int pageSize)
+    {
+        var pagedList = new PagedList<TEntity>(_mapper.Map<IList<TEntity>>(items), pageIndex, pageSize);
+
+        return pagedList;
+    }
+
+    private IBaseRepository<TEntity> RepositoryOf<TEntity>() where TEntity : BaseEntity
+    {
+        var repo = _serviceProvider
+            .GetService(typeof(IBaseRepository<TEntity>));
+
+        return repo as IBaseRepository<TEntity> ?? throw new InvalidOperationException();
+    }
+
     #region Caching Methods
+
     private void SetCache<TEntity>(TEntity entity, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
     {
         var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
@@ -139,14 +146,12 @@ public class Supervisor : ISupervisor
         _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
     }
 
-    private void SetCache<TEntity>(IEnumerable<TEntity> entities, MemoryCacheEntryOptions? options = null) where TEntity : BaseEntity
+    private void SetCache<TEntity>(IEnumerable<TEntity> entities, MemoryCacheEntryOptions? options = null)
+        where TEntity : BaseEntity
     {
         var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
 
-        foreach (var entity in entities)
-        {
-            _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
-        }
+        foreach (var entity in entities) _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
     }
 
     private TEntity? GetCache<TEntity>(int id)
@@ -173,12 +178,6 @@ public class Supervisor : ISupervisor
 
         return defaultOptions;
     }
+
     #endregion
-
-    public PagedList<TEntity> GetPagedList<TEntity>(IList<TEntity> items, int pageIndex, int pageSize)
-    {
-        var pagedList = new PagedList<TEntity>(_mapper.Map<IList<TEntity>>(items), pageIndex, pageSize);
-
-        return pagedList;
-    }
 }

@@ -8,7 +8,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> entity)
     {
-        entity.HasKey(e => new { e.Id });
+        entity.HasKey(e => new {e.Id});
 
         entity.HasMany(e => e.Employees)
             .WithOne(e => e.UserAccount)
