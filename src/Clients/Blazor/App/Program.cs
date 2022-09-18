@@ -1,15 +1,19 @@
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using ProMag.Client.Blazor.App;
-using ProMag.Client.Blazor.App.Configurations;
+using ProMag.Client.Blazor.App.Extensions;
 
-Console.WriteLine("ProMag has started...");
+namespace ProMag.Client.Blazor.App;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+public static class Program
+{
+    public static async Task Main(string[] args)
+    {
+        Console.WriteLine("ProMag has started...");
 
-builder.ConfigureHttpClient();
-builder.ConfigureServices();
+        var builder = WebAssemblyHostBuilder
+                        .CreateDefault(args)
+                        .AddRootComponents()
+                        .AddClientServices();
 
-await builder.Build().RunAsync();
+        await builder.Build().RunAsync();
+    }
+}
