@@ -1,5 +1,16 @@
-﻿<MudNavMenu>
+﻿<MudNavMenu Class="mud-width-full" Bordered="true">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+    <MudDivider Class="my-2" />
+    <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
+        @foreach (var p in Projects)
+        {
+            <MudNavLink Href=@("/projects/" + p.Id)>@p.Name</MudNavLink>
+        }
+    </MudNavGroup>
 </MudNavMenu>
+
+@code {
+    [Parameter]
+    public List<ProjectReadDto> Projects { get; set; } = null!;
+
+}

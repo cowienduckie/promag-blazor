@@ -7,7 +7,8 @@ public partial class Index
 {
     [Inject]
     private IProjectService ProjectService { get; set; } = null!;
-    protected List<ProjectReadDto> Projects { get; set; } = new List<ProjectReadDto>();
+
+    private List<ProjectReadDto> Projects { get; set; } = new List<ProjectReadDto>();
 
     protected override async Task OnInitializedAsync()
     {

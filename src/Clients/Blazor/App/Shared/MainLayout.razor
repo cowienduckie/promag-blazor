@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IProjectService ProjectService
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -13,22 +14,33 @@
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">ProMag App</MudText>
+            <MudText Typo="Typo.h6" Class="px-4">ProMag</MudText>
         </MudDrawerHeader>
-        <NavMenu />
+        <NavMenu Projects="Projects" />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-16 px-16">
             @Body
         </MudContainer>
     </MudMainContent>
 </MudLayout>
 
 @code {
+    // Drawer
     bool _drawerOpen = true;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    // Get project list
+    private List<ProjectReadDto> Projects { get; set; } = new List<ProjectReadDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var projects = await ProjectService.GetAllAsync();
+
+        Projects = (List<ProjectReadDto>)projects;
     }
 }

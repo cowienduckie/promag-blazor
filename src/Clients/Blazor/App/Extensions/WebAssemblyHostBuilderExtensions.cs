@@ -26,7 +26,7 @@ public static class WebAssemblyHostBuilderExtensions
         return builder;
     }
 
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IProjectService, ProjectService>();
 
