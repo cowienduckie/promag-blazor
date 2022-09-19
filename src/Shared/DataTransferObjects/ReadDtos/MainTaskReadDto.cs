@@ -12,9 +12,9 @@ public class MainTaskReadDto
 
     public TaskStatusReadDto? Status { get; set; }
 
-    public List<PropertyReadDto>? Properties { get; set; }
+    //public List<PropertyReadDto>? Properties { get; set; }
 
-    public List<SubTaskReadDto>? SubTasks { get; set; }
+    //public List<SubTaskReadDto>? SubTasks { get; set; }
 }
 
 public class TaskStatusReadDto

@@ -4,16 +4,22 @@ using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
+using ProMag.Client.Blazor.Infrastructure.Routes;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
 public class ProjectService : IProjectService
 {
     private readonly HttpClient _client;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     public ProjectService(HttpClient client)
     {
         _client = client;
+        _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
     }
 
     public Task CreateAsync(ProjectCreateDto createDto)
@@ -28,24 +34,28 @@ public class ProjectService : IProjectService
 
     public async Task<IEnumerable<ProjectReadDto>> GetAllAsync()
     {
-        var response = await _client.GetAsync("projects");
+        var response = await _client.GetAsync(ProjectEndpoints.Projects);
         var content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException(content);
         }
 
-        var projects = JsonSerializer.Deserialize<IEnumerable<ProjectReadDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-                            ?? new List<ProjectReadDto>();
-
-        projects.ToList().ForEach(p => Console.WriteLine(p.Name));
-
-        return projects;
+        return JsonSerializer.Deserialize<List<ProjectReadDto>>(content, _jsonSerializerOptions)
+               ?? new List<ProjectReadDto>();
     }
 
-    public Task<ProjectReadDto> GetByIdAsync(int id)
+    public async Task<ProjectReadDto> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var response = await _client.GetAsync(ProjectEndpoints.RequestById(id));
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException(content);
+        }
+
+        return JsonSerializer.Deserialize<ProjectReadDto>(content, _jsonSerializerOptions)
+               ?? throw new InvalidOperationException();
     }
 
     public Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)

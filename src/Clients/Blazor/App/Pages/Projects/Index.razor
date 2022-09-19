@@ -1,0 +1,9 @@
+﻿@page "/projects/{ProjectId:int}"
+
+<MudDropContainer
+    T="MainTaskReadDto"
+    Items="Project.MainTasks"
+    Class="d-flex flex-row"
+    @ref="_dropContainer">
+
+</MudDropContainer>
