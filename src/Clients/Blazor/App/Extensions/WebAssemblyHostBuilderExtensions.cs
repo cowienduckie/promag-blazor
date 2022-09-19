@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 using ProMag.Client.Blazor.Infrastructure.Services;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using App = ProMag.Client.Blazor.App.App;
@@ -19,7 +20,8 @@ public static class WebAssemblyHostBuilderExtensions
     {
         builder.Services
             .AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.Configuration["API_BASE_URL"]!)})
-            .AddServices();
+            .AddServices()
+            .AddMudServices();
 
         return builder;
     }
