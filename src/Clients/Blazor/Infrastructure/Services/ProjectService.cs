@@ -1,10 +1,11 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
-using ProMag.Clients.Blazor.Infrastructure.Services.Interfaces;
+using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
 
-namespace ProMag.Clients.Blazor.Infrastructure.Services;
+namespace ProMag.Client.Blazor.Infrastructure.Services;
 
 public class ProjectService : IProjectService
 {
@@ -25,9 +26,21 @@ public class ProjectService : IProjectService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<ProjectReadDto>> GetAllAsync()
+    public async Task<IEnumerable<ProjectReadDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var response = await _client.GetAsync("projects");
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ApplicationException(content);
+        }
+
+        var projects = JsonSerializer.Deserialize<IEnumerable<ProjectReadDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                            ?? new List<ProjectReadDto>();
+
+        projects.ToList().ForEach(p => Console.WriteLine(p.Name));
+
+        return projects;
     }
 
     public Task<ProjectReadDto> GetByIdAsync(int id)
