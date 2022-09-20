@@ -2,10 +2,5 @@
 
 public static class ProjectEndpoints
 {
-    public static string Projects = "projects";
-
-    public static string RequestById(int id)
-    {
-        return $"projects/{id}";
-    }
+    public const string Projects = "projects";
 }

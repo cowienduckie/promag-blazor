@@ -4,7 +4,7 @@
     <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
         @foreach (var p in Projects)
         {
-            <MudNavLink Href=@("/projects/" + p.Id)>@p.Name</MudNavLink>
+            <MudNavLink Href=@("/projects/" + p.Id) Match="NavLinkMatch.All">@p.Name</MudNavLink>
         }
     </MudNavGroup>
 </MudNavMenu>

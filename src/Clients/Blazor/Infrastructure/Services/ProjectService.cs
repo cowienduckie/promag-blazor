@@ -47,7 +47,7 @@ public class ProjectService : IProjectService
 
     public async Task<ProjectReadDto> GetByIdAsync(int id)
     {
-        var response = await _client.GetAsync(ProjectEndpoints.RequestById(id));
+        var response = await _client.GetAsync($"{ProjectEndpoints.Projects}/{id}");
         var content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {

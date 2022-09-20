@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using ProMag.Client.Blazor.App.Shared;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using System.ComponentModel.DataAnnotations;
@@ -16,15 +17,12 @@ public partial class Index
 
     private ProjectReadDto Project { get; set; } = new ProjectReadDto();
 
-    protected override async Task OnInitializedAsync()
+    private KanbanBoard? _kanbanBoard { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
         var projects = await ProjectService.GetByIdAsync(ProjectId);
 
         Project = projects;
     }
-
-    #region Kanban Board
-    private MudDropContainer<MainTaskReadDto>? _dropContainer;
-
-    #endregion
 }
