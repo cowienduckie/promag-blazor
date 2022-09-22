@@ -13,16 +13,14 @@ public partial class Index
     [Parameter]
     public int ProjectId { get; set; }
 
-    [Inject] private IProjectService ProjectService { get; set; } = null!;
+    [Inject]
+    private IProjectService ProjectService { get; set; } = null!;
 
     private ProjectReadDto Project { get; set; } = new ProjectReadDto();
-
-    private KanbanBoard? _kanbanBoard { get; set; }
-
     protected override async Task OnParametersSetAsync()
     {
-        var projects = await ProjectService.GetByIdAsync(ProjectId);
+        var project = await ProjectService.GetByIdAsync(ProjectId);
 
-        Project = projects;
+        Project = project;
     }
 }
