@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
+
 public interface IBaseService<TReadDto>
 {
     Task<IEnumerable<TReadDto>> GetAllAsync();
@@ -17,7 +14,8 @@ public interface IBaseService<TReadDto, TCreateDto> : IBaseService<TReadDto>
     Task CreateAsync(TCreateDto createDto);
 }
 
-public interface IBaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto> where TUpdateDto : class
+public interface IBaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto>
+    where TUpdateDto : class
 {
     Task UpdateAsync(int id, TUpdateDto updateDto);
     Task PartialUpdateAsync(int id, JsonPatchDocument<TUpdateDto> updatePatchDoc);

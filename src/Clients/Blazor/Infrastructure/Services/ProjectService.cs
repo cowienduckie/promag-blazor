@@ -1,10 +1,10 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
+using ProMag.Client.Blazor.Infrastructure.Routes;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
-using ProMag.Client.Blazor.Infrastructure.Routes;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
@@ -36,10 +36,7 @@ public class ProjectService : IProjectService
     {
         var response = await _client.GetAsync(ProjectEndpoints.Projects);
         var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new ApplicationException(content);
-        }
+        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
 
         return JsonSerializer.Deserialize<List<ProjectReadDto>>(content, _jsonSerializerOptions)
                ?? new List<ProjectReadDto>();
@@ -49,10 +46,7 @@ public class ProjectService : IProjectService
     {
         var response = await _client.GetAsync($"{ProjectEndpoints.Projects}/{id}");
         var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new ApplicationException(content);
-        }
+        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
 
         return JsonSerializer.Deserialize<ProjectReadDto>(content, _jsonSerializerOptions)
                ?? throw new InvalidOperationException();

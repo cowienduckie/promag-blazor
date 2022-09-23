@@ -1,27 +1,28 @@
-
 <MudText Typo="Typo.h4">Task List</MudText>
 @foreach (var task in _tasks)
 {
-	<MudText Typo="Typo.h5">@task.Name - @task.Status - @task.StatusId</MudText>
+    <MudText Typo="Typo.h5">@task.Name - @task.Status - @task.StatusId</MudText>
 }
-<MudDivider />
-<MudSpacer />
+<MudDivider/>
+<MudSpacer/>
 
-<MudDropContainer T="KanbanTask" Items="_tasks" ItemsSelector="@((item,column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row">
-	<ChildContent>
-		@foreach (var item in _sections)
-		{
-			<MudPaper Elevation="0" Width="224px" MinHeight="400px" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
-				<MudToolBar DisableGutters="true">
-					<MudText Typo="Typo.subtitle1"><b>@item.Name</b></MudText>
-					<MudSpacer />
-					@* <MudMenu Icon="@Icons.Material.Rounded.MoreHoriz" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" ListClass="pa-2 d-flex flex-column" PopoverClass="mud-elevation-25">
+<MudDropContainer T="KanbanTask" Items="_tasks" ItemsSelector="@((item, column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row">
+    <ChildContent>
+        @foreach (var item in _sections)
+        {
+            <MudPaper Elevation="0" Width="224px" MinHeight="400px" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
+                <MudToolBar DisableGutters="true">
+                    <MudText Typo="Typo.subtitle1">
+                        <b>@item.Name</b>
+                    </MudText>
+                    <MudSpacer/>
+                    @* <MudMenu Icon="@Icons.Material.Rounded.MoreHoriz" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" ListClass="pa-2 d-flex flex-column" PopoverClass="mud-elevation-25">
 						<MudButton Size="Size.Small" Color="Color.Error" StartIcon="@Icons.Outlined.Delete" OnClick="@( () => DeleteSection(item))">Delete Section</MudButton>
 						<MudButton Size="Size.Small" Color="Color.Default" StartIcon="@Icons.Rounded.Edit">Rename Section</MudButton>
 					</MudMenu> *@
-				</MudToolBar>
-				<MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full" />
-				@* @if (item.NewTaskOpen)
+                </MudToolBar>
+                <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
+                @* @if (item.NewTaskOpen)
 				{
 					<MudPaper Elevation="25" Class="pa-2 rounded-lg">
 						<MudTextField @bind-Value="item.NewTaskName" Placeholder="New Task" DisableUnderLine="true" Margin="Margin.Dense" Class="mx-2 mt-n2"></MudTextField>
@@ -32,9 +33,9 @@
 				{
 					<MudButton OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)" StartIcon="@Icons.Filled.Add" FullWidth="true" Class="rounded-lg py-2">Add Task</MudButton>
 				} *@
-			</MudPaper>
-		}
-		@* <MudPaper Class="pa-4" Elevation="0" Width="224px">
+            </MudPaper>
+        }
+        @* <MudPaper Class="pa-4" Elevation="0" Width="224px">
 			@if (_addSectionOpen)
 			{
 				<MudPaper Elevation="0" Width="224px" Class="pa-4 d-flex flex-column mud-background-gray rounded-lg">
@@ -50,96 +51,107 @@
 				<MudButton OnClick="OpenAddNewSection" Variant="Variant.Outlined" StartIcon="@Icons.Filled.Add" Color="Color.Primary" Class="rounded-lg py-2" FullWidth="true">Add Section</MudButton>
 			}
 		</MudPaper> *@
-	</ChildContent>
-	<ItemRenderer>
-		<MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">@context.Name</MudPaper>
-	</ItemRenderer>
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">@context.Name</MudPaper>
+    </ItemRenderer>
 </MudDropContainer>
 
 @code {
-	// Parameters
-	[Parameter]
-	public ProjectReadDto? Project { get; set; } = new();
+    // Parameters
+    [Parameter]
+    public ProjectReadDto? Project { get; set; } = new();
 
-	// Class Properties
-	private const int NO_STATUS_ID = 0;
-	private const string NO_STATUS = "No Status";
-	private static List<KanbanSection> _baseSections = new()
-	{
-		new KanbanSection(1, "To-Do"),
-		new KanbanSection(2, "In Progress"),
-		new KanbanSection(3, "Done")
-	};
-	private List<KanbanTask> _tasks { get; set; } = new();
-	private List<KanbanSection> _sections { get; set; } = _baseSections;
+    // Class Properties
+        private const int NO_STATUS_ID = 0;
+        private const string NO_STATUS = "No Status";
 
-	protected override void OnParametersSet()
-	{
-		if (Project != null)
-		{
-			_tasks = Project.MainTasks
-						?.Select(mt => mt.Status != null 
-										? new KanbanTask(mt.Id, mt.Name!, mt.Status.Id, mt.Status.Name!) 
-										: new KanbanTask(mt.Id, mt.Name!))
-						.ToList()
-						?? new List<KanbanTask>();
-
-			_sections = _tasks.Select(t => new KanbanSection(t.StatusId, t.Status))
-							@* .Concat(_baseSections) *@
-							.DistinctBy(s => s.Id)
-							.ToList();
-		}
-		else
-		{
-			_tasks.Clear();
-			_sections = _baseSections;
-		}
-	}
-
-#region Board Events
-	private void TaskUpdated(MudItemDropInfo<KanbanTask> dropItem)
+    private static List<KanbanSection> _baseSections = new()
     {
-        dropItem.Item.Status = dropItem.DropzoneIdentifier;		
-		
-    }
-#endregion
+        new KanbanSection(1, "To-Do"),
+        new KanbanSection(2, "In Progress"),
+        new KanbanSection(3, "Done")
+    };
 
-#region Kanban Classes
-	public class KanbanTask
-	{
-		public int Id { get; set;}
-		public string Name { get; set;}
-		public int StatusId { get; set; }
-		public string Status { get; set; }
-		public KanbanTask(int id, string name, int statusId, string status)
-		{
-			this.Id = id;
-			this.Name = name;
-			this.StatusId = statusId;
-			this.Status = status;
-		}
-		public KanbanTask(int id, string name)
-		{
-			this.Id = id;
-			this.Name = name;
-			this.StatusId = NO_STATUS_ID;
-			this.Status = NO_STATUS;
-		}
-	}
-	public class KanbanSection
-	{
-		public int Id { get; set; }
-		public string Name { get; set; }
-		public KanbanSection(int id, string name)
-		{
-			this.Id = id;
-			this.Name = name;
-		}
-		public KanbanSection()
-		{
-			this.Id = NO_STATUS_ID;
-			this.Name = NO_STATUS;
-		}
-	}
-#endregion
+    private List<KanbanTask> _tasks { get; set; } = new();
+    private List<KanbanSection> _sections { get; set; } = _baseSections;
+
+    protected override void OnParametersSet()
+    {
+        if (Project != null)
+        {
+            _tasks = Project.MainTasks
+                ?.Select(mt => mt.Status != null
+                    ? new KanbanTask(mt.Id, mt.Name!, mt.Status.Id, mt.Status.Name!)
+                    : new KanbanTask(mt.Id, mt.Name!))
+                .ToList()
+                     ?? new List<KanbanTask>();
+
+            _sections = _tasks.Select(t => new KanbanSection(t.StatusId, t.Status))
+    //.Concat(_baseSections)
+                .DistinctBy(s => s.Id)
+                .ToList();
+        }
+        else
+        {
+            _tasks.Clear();
+            _sections = _baseSections;
+        }
+    }
+
+    #region Board Events
+
+    private void TaskUpdated(MudItemDropInfo<KanbanTask> dropItem)
+    {
+        dropItem.Item.Status = dropItem.DropzoneIdentifier;
+    }
+
+    #endregion
+
+    #region Kanban Classes
+
+    public class KanbanTask
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int StatusId { get; set; }
+        public string Status { get; set; }
+
+        public KanbanTask(int id, string name, int statusId, string status)
+        {
+            Id = id;
+            Name = name;
+            StatusId = statusId;
+            Status = status;
+        }
+
+        public KanbanTask(int id, string name)
+        {
+            Id = id;
+            Name = name;
+            StatusId = NO_STATUS_ID;
+            Status = NO_STATUS;
+        }
+    }
+
+    public class KanbanSection
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public KanbanSection(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public KanbanSection()
+        {
+            Id = NO_STATUS_ID;
+            Name = NO_STATUS;
+        }
+    }
+
+    #endregion
+
 }

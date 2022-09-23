@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using ProMag.Client.Blazor.Infrastructure.Services;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
-using App = ProMag.Client.Blazor.App.App;
 
 namespace ProMag.Client.Blazor.App.Extensions;
+
 public static class WebAssemblyHostBuilderExtensions
 {
     public static WebAssemblyHostBuilder AddRootComponents(this WebAssemblyHostBuilder builder)

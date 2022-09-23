@@ -1,6 +1,6 @@
 ﻿<MudNavMenu Class="mud-width-full" Bordered="true">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudDivider Class="my-2" />
+    <MudDivider Class="my-2"/>
     <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
         @foreach (var p in Projects)
         {
@@ -10,6 +10,7 @@
 </MudNavMenu>
 
 @code {
+
     [Parameter]
     public List<ProjectReadDto> Projects { get; set; } = null!;
 

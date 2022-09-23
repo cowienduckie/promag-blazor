@@ -10,9 +10,9 @@ public static class Program
         Console.WriteLine("ProMag has started...");
 
         var builder = WebAssemblyHostBuilder
-                        .CreateDefault(args)
-                        .AddRootComponents()
-                        .AddClientServices();
+            .CreateDefault(args)
+            .AddRootComponents()
+            .AddClientServices();
 
         await builder.Build().RunAsync();
     }
