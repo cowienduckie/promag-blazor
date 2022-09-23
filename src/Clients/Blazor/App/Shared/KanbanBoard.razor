@@ -88,7 +88,8 @@
                      ?? new List<KanbanTask>();
 
             _sections = _tasks.Select(t => new KanbanSection(t.StatusId, t.Status))
-    //.Concat(_baseSections)
+                .Concat(_baseSections)
+                //.OrderBy(s => s.Id)
                 .DistinctBy(s => s.Id)
                 .ToList();
         }
