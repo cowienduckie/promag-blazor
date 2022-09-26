@@ -1,5 +1,6 @@
 ﻿using ProMag.Server.Core.Domain.Entities;
 using ProMag.Shared.DataTypes;
+using ProMag.Shared.Models;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
@@ -16,4 +17,8 @@ public interface ISupervisor
     Task<bool> UpdateAsync<TEntity, TUpdateDto>(int id, TUpdateDto updateDto) where TEntity : BaseEntity;
 
     Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity;
+
+    #region Projects
+    Task<IEnumerable<SectionModel>> GetSectionsAsync();
+    #endregion
 }

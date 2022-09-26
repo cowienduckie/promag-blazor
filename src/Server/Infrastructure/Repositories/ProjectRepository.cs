@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
+using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 
 #pragma warning disable CS8620
 
@@ -33,5 +34,13 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
             .ThenInclude(mt => mt.Status)
             .Include(e => e.DefaultProperties)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<TaskStatus>> GetSectionsAsync()
+    {
+        return await DataContext.TaskStatuses
+            .Where(e => !e.IsDelete)
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

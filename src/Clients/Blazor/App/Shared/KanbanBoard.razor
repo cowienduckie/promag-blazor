@@ -10,7 +10,7 @@
     <ChildContent>
         @foreach (var item in _sections)
         {
-            <MudPaper Elevation="0" Width="224px" MinHeight="400px" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
+            <MudPaper Elevation="0" Width="30vw" MinHeight="400px" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
                 <MudToolBar DisableGutters="true">
                     <MudText Typo="Typo.subtitle1">
                         <b>@item.Name</b>
@@ -79,7 +79,7 @@
     protected override void OnParametersSet()
     {
         if (Project != null)
-        {
+        {   
             _tasks = Project.MainTasks
                 ?.Select(mt => mt.Status != null
                     ? new KanbanTask(mt.Id, mt.Name!, mt.Status.Id, mt.Status.Name!)
@@ -89,7 +89,7 @@
 
             _sections = _tasks.Select(t => new KanbanSection(t.StatusId, t.Status))
                 .Concat(_baseSections)
-                //.OrderBy(s => s.Id)
+                .OrderBy(s => s.Id)
                 .DistinctBy(s => s.Id)
                 .ToList();
         }

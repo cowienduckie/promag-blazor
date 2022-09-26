@@ -3,6 +3,7 @@ using ProMag.Server.Core.Domain.Entities;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
+using ProMag.Shared.Models;
 using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 
 namespace ProMag.Server.Core.Domain.Mappings;
@@ -18,5 +19,6 @@ public class MainTaskProfile : Profile
 
         // TaskStatus mappers
         CreateMap<TaskStatus, TaskStatusReadDto>();
+        CreateMap<TaskStatus, SectionModel>();
     }
 }

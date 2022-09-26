@@ -7,20 +7,23 @@ using ProMag.Shared.DataTypes;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
-public class Supervisor : ISupervisor
+public partial class Supervisor : ISupervisor
 {
     private readonly IMemoryCache _cache;
     private readonly IMapper _mapper;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IProjectRepository _projectRepository;
 
     public Supervisor(
         IMemoryCache cache,
         IMapper mapper,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IProjectRepository projectRepository)
     {
         _cache = cache;
         _mapper = mapper;
         _serviceProvider = serviceProvider;
+        _projectRepository = projectRepository;
     }
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity
@@ -154,9 +157,21 @@ public class Supervisor : ISupervisor
         foreach (var entity in entities) _cache.Set(GetCacheKey<TEntity>(entity.Id), entity, cacheEntryOptions);
     }
 
-    private TEntity? GetCache<TEntity>(int id)
+    private void SetCache<TEntity>(TEntity entity, string key, MemoryCacheEntryOptions? options = null)
+    {
+        var cacheEntryOptions = options ?? GetDefaultCacheEntryOptions();
+
+        _cache.Set(key, entity, cacheEntryOptions);
+    }
+
+    private TEntity? GetCache<TEntity>(int id) where TEntity : BaseEntity
     {
         return _cache.Get<TEntity>(GetCacheKey<TEntity>(id));
+    }
+
+    private bool GetCache<TEntity>(string key, out TEntity value)
+    {
+        return _cache.TryGetValue(key, out value);
     }
 
     private void RemoveCache<TEntity>(int id)

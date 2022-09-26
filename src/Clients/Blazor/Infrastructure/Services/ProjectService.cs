@@ -5,6 +5,7 @@ using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
+using ProMag.Shared.Models;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
@@ -50,6 +51,16 @@ public class ProjectService : IProjectService
 
         return JsonSerializer.Deserialize<ProjectReadDto>(content, _jsonSerializerOptions)
                ?? throw new InvalidOperationException();
+    }
+
+    public async Task<IEnumerable<ProjectSimplifiedModel>> GetAllSimplifiedAsync()
+    {
+        var response = await _client.GetAsync($"{ProjectEndpoints.Projects}?simplified=true");
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
+
+        return JsonSerializer.Deserialize<List<ProjectSimplifiedModel>>(content, _jsonSerializerOptions)
+               ?? new List<ProjectSimplifiedModel>();
     }
 
     public Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)

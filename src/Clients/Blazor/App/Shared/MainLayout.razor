@@ -35,13 +35,13 @@
     }
 
     // Get project list
-    private List<ProjectReadDto> Projects { get; set; } = new();
+    private List<ProjectSimplifiedModel> Projects { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var projects = await ProjectService.GetAllAsync();
+        var projects = await ProjectService.GetAllSimplifiedAsync();
 
-        Projects = (List<ProjectReadDto>) projects;
+        Projects = (List<ProjectSimplifiedModel>) projects;
     }
 
 }
