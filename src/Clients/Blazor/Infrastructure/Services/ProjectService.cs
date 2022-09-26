@@ -63,6 +63,16 @@ public class ProjectService : IProjectService
                ?? new List<ProjectSimplifiedModel>();
     }
 
+    public async Task<IEnumerable<SectionModel>> GetSectionsAsync()
+    {
+        var response = await _client.GetAsync(ProjectEndpoints.Sections);
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
+
+        return JsonSerializer.Deserialize<List<SectionModel>>(content, _jsonSerializerOptions)
+               ?? new List<SectionModel>();
+    }
+
     public Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)
     {
         throw new NotImplementedException();

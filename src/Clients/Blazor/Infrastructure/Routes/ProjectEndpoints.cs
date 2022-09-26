@@ -2,5 +2,6 @@
 
 public static class ProjectEndpoints
 {
-    public const string Projects = "projects";
+    public const string Projects = "Projects";
+    public const string Sections = $"{Projects}/GetSections";
 }

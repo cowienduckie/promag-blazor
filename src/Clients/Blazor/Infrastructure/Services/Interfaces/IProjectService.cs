@@ -8,4 +8,5 @@ namespace ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 public interface IProjectService : IBaseService<ProjectReadDto, ProjectCreateDto, ProjectUpdateDto>
 {
     Task<IEnumerable<ProjectSimplifiedModel>> GetAllSimplifiedAsync();
+    Task<IEnumerable<SectionModel>> GetSectionsAsync();
 }
