@@ -11,7 +11,7 @@ public static class ConfigureConnections
     {
         var connection = configuration["LocalConnectionString"] ?? configuration["ConnectionString"];
 
-        services.AddDbContextPool<DataContext>(optionsBuilder => { optionsBuilder.UseSqlServer(connection); });
+        services.AddDbContextPool<DataContext>(optionsBuilder => optionsBuilder.UseSqlServer(connection));
 
         services.AddSingleton(new SqlConnection(connection));
 

@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client.Blazor", "Client.Blazor", "{0D2D0C1D-11FF-419A-9DE9-D6EB47A597A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Client.Blazor.App", "Clients\Blazor\App\ProMag.Client.Blazor.App.csproj", "{A07D369F-7CE9-4416-B9A8-5524D3B29BB8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{01854E24-200C-45D3-9BE3-F7A3391D89F1} = {01854E24-200C-45D3-9BE3-F7A3391D89F1}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProMag.Client.Blazor.Infrastructure", "Clients\Blazor\Infrastructure\ProMag.Client.Blazor.Infrastructure.csproj", "{DE84D929-3712-4D44-9630-30A4ADFA0A98}"
 EndProject

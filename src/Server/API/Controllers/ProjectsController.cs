@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using ProMag.Server.Core.DataTransferObjects.CreateDtos;
-using ProMag.Server.Core.DataTransferObjects.ReadDtos;
-using ProMag.Server.Core.DataTransferObjects.UpdateDtos;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
+using ProMag.Shared.DataTransferObjects.CreateDtos;
+using ProMag.Shared.DataTransferObjects.ReadDtos;
+using ProMag.Shared.DataTransferObjects.UpdateDtos;
+using ProMag.Shared.Models;
 
 namespace ProMag.Server.Api.Controllers;
 
@@ -19,13 +20,22 @@ public class ProjectsController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProjectReadDto>>>? GetAllAsync()
+    public async Task<ActionResult> GetAllAsync(bool simplified=false)
     {
         try
         {
-            var result = await Supervisor.GetAllAsync<Project, ProjectReadDto>();
+            if (simplified)
+            {
+                var result = await Supervisor.GetAllAsync<Project, ProjectSimplifiedModel>();
 
-            return !result.Any() ? NotFound() : Ok(result);
+                return !result.Any() ? NotFound() : Ok(result);
+            }
+            else
+            {
+                var result = await Supervisor.GetAllAsync<Project, ProjectReadDto>();
+
+                return !result.Any() ? NotFound() : Ok(result);
+            }
         }
         catch (Exception e)
         {
@@ -113,6 +123,21 @@ public class ProjectsController : BaseController
             if (await Supervisor.GetByIdAsync<Project, ProjectReadDto>(id) == null) return NotFound();
 
             return await Supervisor.DeleteAsync<Project>(id) ? NoContent() : StatusCode(500);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e);
+        }
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<IEnumerable<SectionModel>>> GetSectionsAsync()
+    {
+        try
+        {
+            var result = await Supervisor.GetSectionsAsync();
+
+             return result.Any() ? Ok(result) : NotFound();
         }
         catch (Exception e)
         {

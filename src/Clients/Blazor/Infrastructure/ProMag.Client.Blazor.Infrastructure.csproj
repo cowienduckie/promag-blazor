@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\ProMag.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>  
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Routes\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove=".gitkeep" />
-    <None Remove="Managers\.gitkeep" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Managers\.gitkeep" />
-    <Compile Include="Routes\.gitkeep" />
-  </ItemGroup>
-
 </Project>

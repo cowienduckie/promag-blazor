@@ -16,6 +16,7 @@ public static class ConfigureServices
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IBaseRepository<Project>, ProjectRepository>();
         services.AddScoped<IBaseRepository<Property>, PropertyRepository>();
         services.AddScoped<IBaseRepository<MainTask>, MainTaskRepository>();

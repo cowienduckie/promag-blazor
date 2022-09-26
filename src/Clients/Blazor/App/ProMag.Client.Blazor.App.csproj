@@ -7,20 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Configurations\.gitkeep" />
-    <None Remove="Extensions\.gitkeep" />
-    <None Remove="Models\.gitkeep" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Configurations\.gitkeep" />
-    <Compile Include="Extensions\.gitkeep" />
-    <Compile Include="Models\.gitkeep" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="MudBlazor" Version="6.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\ProMag.Client.Blazor.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Projects\" />
   </ItemGroup>
 
 </Project>

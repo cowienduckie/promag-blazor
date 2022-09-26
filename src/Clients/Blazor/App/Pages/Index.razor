@@ -1,9 +1,12 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudText Typo="Typo.h3" GutterBottom="true">Hello, Minh Tran!</MudText>
+<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
 
-Welcome to your new Blazor App.
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@foreach (var p in Projects)
+{
+    <MudText Class="mb-8">@p.Name</MudText>
+}
