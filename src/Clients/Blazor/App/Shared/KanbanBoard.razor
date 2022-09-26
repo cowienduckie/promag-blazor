@@ -1,18 +1,13 @@
 @inject IProjectService ProjectService
 
-<MudText Typo="Typo.h4">Task List</MudText>
-@foreach (var task in _tasks)
-{
-    <MudText Typo="Typo.h5">@task.Name - @task.Status - @task.StatusId</MudText>
-}
-<MudDivider/>
-<MudSpacer/>
+<MudText Typo="Typo.h4">@Project?.Name?.ToUpper()</MudText>
+<MudDivider Class="my-3"/>
 
-<MudDropContainer T="KanbanTask" @ref="_dropContainer" Items="_tasks" ItemsSelector="@((item, column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row">
+<MudDropContainer T="KanbanTask" @ref="_dropContainer" Items="_tasks" ItemsSelector="@((item, column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row flex-nowrap overflow-scroll">
     <ChildContent>
         @foreach (var item in _sections)
         {
-            <MudPaper Elevation="0" Width="30vw" MinHeight="50vh" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
+            <MudPaper Elevation="0" MinWidth="20vw" MinHeight="60vh" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
                 <MudToolBar DisableGutters="true">
                     <MudText Typo="Typo.subtitle1">
                         <b>@item.Name</b>
@@ -23,7 +18,7 @@
 						<MudButton Size="Size.Small" Color="Color.Default" StartIcon="@Icons.Rounded.Edit">Rename Section</MudButton>
 					</MudMenu> *@
                 </MudToolBar>
-                
+                <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
                 @* @if (item.NewTaskOpen)
 				{
 					<MudPaper Elevation="25" Class="pa-2 rounded-lg">
@@ -36,7 +31,6 @@
 					<MudButton OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)" StartIcon="@Icons.Filled.Add" FullWidth="true" Class="rounded-lg py-2">Add Task</MudButton>
 				} *@
             </MudPaper>
-            <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
         }
         @* <MudPaper Class="pa-4" Elevation="0" Width="224px">
 			@if (_addSectionOpen)
@@ -75,7 +69,7 @@
     private List<KanbanSection> _sections { get; set; } = _baseSections;
 
     private MudDropContainer<KanbanTask>? _dropContainer;
-    
+
     protected override async Task OnInitializedAsync()
     {
         var sections = await ProjectService.GetSectionsAsync();
@@ -83,21 +77,21 @@
         _baseSections = sections
             .Select(s => new KanbanSection(s.Id, s.Name))
             .ToList();
-        
+
         _sections = _baseSections;
     }
 
     protected override void OnParametersSet()
     {
         if (Project != null && Project.MainTasks != null && Project.MainTasks.Any())
-        {   
+        {
             _tasks = Project.MainTasks
                 ?.Select(mt => mt.Status != null
                     ? new KanbanTask(mt.Id, mt.Name!, mt.Status.Id, mt.Status.Name!)
                     : new KanbanTask(mt.Id, mt.Name!))
                 .ToList()
                      ?? new List<KanbanTask>();
-            
+
             if (_tasks.Any(t => t.StatusId == NO_STATUS_ID))
             {
                 _sections.Add(new KanbanSection(NO_STATUS_ID, NO_STATUS));
@@ -105,12 +99,17 @@
         }
         else
         {
-            Console.WriteLine("Here");
             _tasks.Clear();
             _sections = _baseSections;
         }
-        
+
+        RefreshContainer();
+    }
+
+    protected void RefreshContainer()
+    {
         StateHasChanged();
+        _dropContainer?.Refresh();
     }
 
     #region Board Events
