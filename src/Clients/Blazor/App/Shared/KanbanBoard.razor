@@ -1,3 +1,4 @@
+@using ProMag.Shared.DataTransferObjects.CreateDtos
 @inject IProjectService ProjectService
 
 <MudText Typo="Typo.h4">@Project?.Name?.ToUpper()</MudText>
@@ -19,7 +20,7 @@
 					</MudMenu> *@
                 </MudToolBar>
                 <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
-                @* @if (item.NewTaskOpen)
+                 @if (item.NewTaskOpen)
 				{
 					<MudPaper Elevation="25" Class="pa-2 rounded-lg">
 						<MudTextField @bind-Value="item.NewTaskName" Placeholder="New Task" DisableUnderLine="true" Margin="Margin.Dense" Class="mx-2 mt-n2"></MudTextField>
@@ -29,7 +30,7 @@
 				else
 				{
 					<MudButton OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)" StartIcon="@Icons.Filled.Add" FullWidth="true" Class="rounded-lg py-2">Add Task</MudButton>
-				} *@
+				}
             </MudPaper>
         }
         @* <MudPaper Class="pa-4" Elevation="0" Width="224px">
@@ -106,11 +107,34 @@
         RefreshContainer();
     }
 
-    protected void RefreshContainer()
+    private void RefreshContainer()
     {
         StateHasChanged();
         _dropContainer?.Refresh();
     }
+
+    #region Board Functions
+    private void AddTask(KanbanSection section)
+    {
+        // TODO: Pop-up failed Add Task if Project is NULL
+        if (Project == null) return;
+
+        MainTaskCreateDto newTask = new()
+        {
+            Name = section.NewTaskName,
+            ProjectId = Project.Id,
+            StatusId = section.Id
+        };
+
+        // TODO: Call API to create task and check if succeeded
+
+        _tasks.Add(new KanbanTask(0, section.NewTaskName, section.Id, section.Name));
+        section.NewTaskName = string.Empty;
+        section.NewTaskOpen = false;
+
+        RefreshContainer();
+    }
+    #endregion
 
     #region Board Events
 
@@ -151,6 +175,8 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool NewTaskOpen { get; set; } = false;
+        public string NewTaskName { get; set; } = string.Empty;
 
         public KanbanSection(int id, string name)
         {

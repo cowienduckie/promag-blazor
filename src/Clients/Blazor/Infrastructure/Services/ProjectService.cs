@@ -35,42 +35,54 @@ public class ProjectService : IProjectService
 
     public async Task<IEnumerable<ProjectReadDto>> GetAllAsync()
     {
-        var response = await _client.GetAsync(ProjectEndpoints.Projects);
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-        return JsonSerializer.Deserialize<List<ProjectReadDto>>(content, _jsonSerializerOptions)
-               ?? new List<ProjectReadDto>();
+        try
+        {
+            return await RestGetRequest<IEnumerable<ProjectReadDto>>(ProjectEndpoints.Projects);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new List<ProjectReadDto>();
+        }
     }
 
     public async Task<ProjectReadDto> GetByIdAsync(int id)
     {
-        var response = await _client.GetAsync($"{ProjectEndpoints.Projects}/{id}");
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-        return JsonSerializer.Deserialize<ProjectReadDto>(content, _jsonSerializerOptions)
-               ?? throw new InvalidOperationException();
+        try
+        {
+            return await RestGetRequest<ProjectReadDto>($"{ProjectEndpoints.Projects}/{id}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new ProjectReadDto();
+        }
     }
 
     public async Task<IEnumerable<ProjectSimplifiedModel>> GetAllSimplifiedAsync()
     {
-        var response = await _client.GetAsync($"{ProjectEndpoints.Projects}?simplified=true");
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-        return JsonSerializer.Deserialize<List<ProjectSimplifiedModel>>(content, _jsonSerializerOptions)
-               ?? new List<ProjectSimplifiedModel>();
+        try
+        {
+            return await RestGetRequest<IEnumerable<ProjectSimplifiedModel>>($"{ProjectEndpoints.Projects}?simplified=true");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new List<ProjectSimplifiedModel>();
+        }
     }
 
     public async Task<IEnumerable<SectionModel>> GetSectionsAsync()
     {
-        var response = await _client.GetAsync(ProjectEndpoints.Sections);
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-        return JsonSerializer.Deserialize<List<SectionModel>>(content, _jsonSerializerOptions)
-               ?? new List<SectionModel>();
+        try
+        {
+            return await RestGetRequest<IEnumerable<SectionModel>>(ProjectEndpoints.Sections);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new List<SectionModel>();
+        }
     }
 
     public Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)
@@ -81,5 +93,15 @@ public class ProjectService : IProjectService
     public Task UpdateAsync(int id, ProjectUpdateDto updateDto)
     {
         throw new NotImplementedException();
+    }
+
+    private async Task<T> RestGetRequest<T>(string uri)
+    {
+        var response = await _client.GetAsync(uri);
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
+
+        return JsonSerializer.Deserialize<T>(content, _jsonSerializerOptions)
+               ?? throw new InvalidOperationException();
     }
 }
