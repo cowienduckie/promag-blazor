@@ -11,7 +11,7 @@ public interface IBaseService<TReadDto>
 
 public interface IBaseService<TReadDto, TCreateDto> : IBaseService<TReadDto>
 {
-    Task CreateAsync(TCreateDto createDto);
+    Task<TReadDto> CreateAsync(TCreateDto createDto);
 }
 
 public interface IBaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto>

@@ -1,7 +1,9 @@
 @using ProMag.Shared.DataTransferObjects.CreateDtos
 @inject IProjectService ProjectService
+@inject IMainTaskService MainTaskService
 
 <MudText Typo="Typo.h4">@Project?.Name?.ToUpper()</MudText>
+<MudButton OnClick="@this.RefreshContainer"></MudButton>
 <MudDivider Class="my-3"/>
 
 <MudDropContainer T="KanbanTask" @ref="_dropContainer" Items="_tasks" ItemsSelector="@((item, column) => item.Status == column)" ItemDropped="TaskUpdated" Class="d-flex flex-row flex-nowrap overflow-scroll">
@@ -14,10 +16,6 @@
                         <b>@item.Name</b>
                     </MudText>
                     <MudSpacer/>
-                    @* <MudMenu Icon="@Icons.Material.Rounded.MoreHoriz" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" ListClass="pa-2 d-flex flex-column" PopoverClass="mud-elevation-25">
-						<MudButton Size="Size.Small" Color="Color.Error" StartIcon="@Icons.Outlined.Delete" OnClick="@( () => DeleteSection(item))">Delete Section</MudButton>
-						<MudButton Size="Size.Small" Color="Color.Default" StartIcon="@Icons.Rounded.Edit">Rename Section</MudButton>
-					</MudMenu> *@
                 </MudToolBar>
                 <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
                  @if (item.NewTaskOpen)
@@ -33,36 +31,22 @@
 				}
             </MudPaper>
         }
-        @* <MudPaper Class="pa-4" Elevation="0" Width="224px">
-			@if (_addSectionOpen)
-			{
-				<MudPaper Elevation="0" Width="224px" Class="pa-4 d-flex flex-column mud-background-gray rounded-lg">
-					<EditForm Model="@newSectionModel" OnValidSubmit="OnValidSectionSubmit">
-						<DataAnnotationsValidator />
-						<MudTextField @bind-Value="newSectionModel.Name" For="@(() => newSectionModel.Name)" Placeholder="New Section" DisableUnderLine="true"></MudTextField>
-						<MudButton ButtonType="ButtonType.Submit" Size="Size.Small" Color="Color.Primary" FullWidth="true">Add Section</MudButton>
-					</EditForm>
-				</MudPaper>
-			}
-			else
-			{
-				<MudButton OnClick="OpenAddNewSection" Variant="Variant.Outlined" StartIcon="@Icons.Filled.Add" Color="Color.Primary" Class="rounded-lg py-2" FullWidth="true">Add Section</MudButton>
-			}
-		</MudPaper> *@
     </ChildContent>
     <ItemRenderer>
         <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">@context.Name</MudPaper>
     </ItemRenderer>
 </MudDropContainer>
 
-@code {
-    // Parameters
+@code 
+{
+    #region Parameters
     [Parameter]
     public ProjectReadDto? Project { get; set; } = new();
+    #endregion
 
-    // Class Properties
-    private const int NO_STATUS_ID = 0;
-    private const string NO_STATUS = "No Status";
+    #region Class Properties
+        private const int NO_STATUS_ID = 0;
+        private const string NO_STATUS = "No Status";
 
     private static List<KanbanSection> _baseSections = new();
 
@@ -70,7 +54,9 @@
     private List<KanbanSection> _sections { get; set; } = _baseSections;
 
     private MudDropContainer<KanbanTask>? _dropContainer;
+    #endregion
 
+    #region Component Render
     protected override async Task OnInitializedAsync()
     {
         var sections = await ProjectService.GetSectionsAsync();
@@ -106,17 +92,11 @@
 
         RefreshContainer();
     }
-
-    private void RefreshContainer()
-    {
-        StateHasChanged();
-        _dropContainer?.Refresh();
-    }
+    #endregion
 
     #region Board Functions
-    private void AddTask(KanbanSection section)
+    private async Task AddTask(KanbanSection section)
     {
-        // TODO: Pop-up failed Add Task if Project is NULL
         if (Project == null) return;
 
         MainTaskCreateDto newTask = new()
@@ -126,34 +106,48 @@
             StatusId = section.Id
         };
 
-        // TODO: Call API to create task and check if succeeded
+        try
+        {
+            var createdTask = await MainTaskService.CreateAsync(newTask);
 
-        _tasks.Add(new KanbanTask(0, section.NewTaskName, section.Id, section.Name));
-        section.NewTaskName = string.Empty;
-        section.NewTaskOpen = false;
+            _tasks.Add(new KanbanTask(createdTask.Id, section.NewTaskName, section.Id, section.Name));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
 
-        RefreshContainer();
+            // TODO: Pop-up error msg
+        }
+        finally
+        {
+            section.NewTaskName = string.Empty;
+            section.NewTaskOpen = false;
+
+            RefreshContainer();
+        }
+    }
+
+    private void RefreshContainer()
+    {
+        StateHasChanged();
+        _dropContainer?.Refresh();
     }
     #endregion
 
     #region Board Events
-
     private void TaskUpdated(MudItemDropInfo<KanbanTask> dropItem)
     {
         dropItem.Item.Status = dropItem.DropzoneIdentifier;
     }
-
     #endregion
 
     #region Kanban Classes
-
     public class KanbanTask
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int StatusId { get; set; }
         public string Status { get; set; }
-
         public KanbanTask(int id, string name, int statusId, string status)
         {
             Id = id;
@@ -161,7 +155,6 @@
             StatusId = statusId;
             Status = status;
         }
-
         public KanbanTask(int id, string name)
         {
             Id = id;
@@ -177,13 +170,11 @@
         public string Name { get; set; }
         public bool NewTaskOpen { get; set; } = false;
         public string NewTaskName { get; set; } = string.Empty;
-
         public KanbanSection(int id, string name)
         {
             Id = id;
             Name = name;
         }
-
         public KanbanSection()
         {
             Id = NO_STATUS_ID;
