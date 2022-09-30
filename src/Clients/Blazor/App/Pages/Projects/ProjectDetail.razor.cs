@@ -4,7 +4,7 @@ using ProMag.Shared.DataTransferObjects.ReadDtos;
 
 namespace ProMag.Client.Blazor.App.Pages.Projects;
 
-public partial class Index
+public partial class ProjectDetail
 {
     [Parameter] public int ProjectId { get; set; }
 

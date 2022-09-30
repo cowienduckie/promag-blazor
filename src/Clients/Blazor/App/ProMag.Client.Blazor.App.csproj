@@ -18,7 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Projects\" />
+    <UpToDateCheckInput Remove="Pages\MainTasks\MainTaskDetailDrawer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\MainTasks\MainTaskDetailDrawer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\MainTasks\" />
   </ItemGroup>
 
 </Project>

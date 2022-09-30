@@ -18,24 +18,29 @@
                     <MudSpacer/>
                 </MudToolBar>
                 <MudDropZone T="KanbanTask" Identifier="@item.Name" Class="mud-height-full"/>
-                 @if (item.NewTaskOpen)
-				{
-					<MudPaper Elevation="25" Class="pa-2 rounded-lg">
-						<MudTextField @bind-Value="item.NewTaskName" Placeholder="New Task" DisableUnderLine="true" Margin="Margin.Dense" Class="mx-2 mt-n2"></MudTextField>
-						<MudButton OnClick="@(() => AddTask(item))" Size="Size.Small" Color="Color.Primary" FullWidth="true">Add Task</MudButton>
-					</MudPaper>
-				}
-				else
-				{
-					<MudButton OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)" StartIcon="@Icons.Filled.Add" FullWidth="true" Class="rounded-lg py-2">Add Task</MudButton>
-				}
+                @if (item.NewTaskOpen)
+                {
+                    <MudPaper Elevation="25" Class="pa-2 rounded-lg">
+                        <MudTextField @bind-Value="item.NewTaskName" Placeholder="New Task" DisableUnderLine="true" Margin="Margin.Dense" Class="mx-2 mt-n2"></MudTextField>
+                        <MudButton OnClick="@(() => AddTask(item))" Size="Size.Small" Color="Color.Primary" FullWidth="true">Add Task</MudButton>
+                    </MudPaper>
+                }
+                else
+                {
+                    <MudButton OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)" StartIcon="@Icons.Filled.Add" FullWidth="true" Class="rounded-lg py-2">Add Task</MudButton>
+                }
             </MudPaper>
         }
     </ChildContent>
     <ItemRenderer>
-        <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">@context.Name</MudPaper>
+        <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">
+            @context.Name
+            <MudIconButton Icon="@Icons.Filled.Info" OnClick="@(()=>{_drawer.MainTask = @context; Console.WriteLine(_drawer.MainTask.Name);})"></MudIconButton>
+        </MudPaper>
     </ItemRenderer>
 </MudDropContainer>
+
+<MainTaskDetailDrawer @ref="_drawer" MainTask="@(new KanbanTask())" />
 
 @code 
 {
@@ -54,6 +59,7 @@
     private List<KanbanSection> _sections { get; set; } = _baseSections;
 
     private MudDropContainer<KanbanTask>? _dropContainer;
+    private MainTaskDetailDrawer _drawer;
     #endregion
 
     #region Component Render
@@ -159,6 +165,14 @@
         {
             Id = id;
             Name = name;
+            StatusId = NO_STATUS_ID;
+            Status = NO_STATUS;
+        }
+
+        public KanbanTask()
+        {
+            Id = 0;
+            Name = string.Empty;
             StatusId = NO_STATUS_ID;
             Status = NO_STATUS;
         }
