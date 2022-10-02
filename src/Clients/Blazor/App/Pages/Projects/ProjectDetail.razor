@@ -1,3 +1,81 @@
 ﻿@page "/projects/{ProjectId:int}"
 
-<KanbanBoard Project="@Project"/>
+<MudText Typo="Typo.h4">@Project.Name.ToUpper()</MudText>
+<MudButton OnClick="@this.RefreshContainer">Refresh</MudButton>
+<MudDivider Class="my-3" />
+
+<MudDropContainer
+    T="MainTaskReadDto"
+    @ref="_dropContainer"
+    Items="Tasks"
+    ItemsSelector="@((item, column) => item.Status.Name == column)"
+    ItemDropped="TaskUpdated"
+    Class="d-flex flex-row flex-nowrap overflow-scroll">
+    <ChildContent>
+        @foreach (var item in Sections)
+        {
+            <MudPaper
+                Elevation="0"
+                MinWidth="20vw"
+                MinHeight="60vh"
+                Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
+                <MudToolBar DisableGutters="true">
+                    <MudText Typo="Typo.subtitle1">
+                        <b>@item.Name</b>
+                    </MudText>
+                    <MudSpacer />
+                </MudToolBar>
+                <MudDropZone
+                    T="MainTaskReadDto"
+                    Identifier="@item.Name"
+                    Class="mud-height-full" />
+                @if (item.NewTaskOpen)
+                {
+                    <MudPaper Elevation="25" Class="pa-2 rounded-lg">
+                        <MudTextField
+                            @bind-Value="item.NewTaskName"
+                            Placeholder="New Task"
+                            DisableUnderLine="true"
+                            Margin="Margin.Dense"
+                            Class="mx-2 mt-n2"></MudTextField>
+                        <MudButton
+                            OnClick="@(() => AddTask(item))"
+                            Size="Size.Small"
+                            Color="Color.Primary"
+                            FullWidth="true">Add Task</MudButton>
+                    </MudPaper>
+                }
+                else
+                {
+                    <MudButton
+                        OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)"
+                        StartIcon="@Icons.Filled.Add"
+                        FullWidth="true"
+                        Class="rounded-lg py-2">Add Task</MudButton>
+                }
+            </MudPaper>
+        }
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">
+            @context.Name
+            <MudIconButton
+                Icon="@Icons.Filled.Info"
+                OnClick="@(() =>{_currentTask = @context; OpenDrawer();})">
+            </MudIconButton>
+        </MudPaper>
+    </ItemRenderer>
+</MudDropContainer>
+
+<MudDrawer
+    @bind-Open="_drawerOpen"
+    Fixed="true"
+    ClipMode="DrawerClipMode.Docked"
+    Anchor="Anchor.End"
+    Elevation="1">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6" Class="px-4">@_currentTask.Name?.ToUpper()</MudText>
+        <MudIconButton Icon="@Icons.Filled.Info" OnClick="@(CloseDrawer)"></MudIconButton>
+    </MudDrawerHeader>
+    <MudText Typo="Typo.body1" Class="my-2">@_currentTask.Id - @_currentTask.Name</MudText>
+</MudDrawer>

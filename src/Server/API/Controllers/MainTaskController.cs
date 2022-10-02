@@ -49,7 +49,7 @@ public class MainTasksController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateAsync([FromBody] MainTaskCreateDto? createDto)
+    public async Task<ActionResult<MainTaskReadDto>> CreateAsync([FromBody] MainTaskCreateDto? createDto)
     {
         try
         {

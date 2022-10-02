@@ -77,8 +77,9 @@ public partial class Supervisor : ISupervisor
             var result = await repository.SaveAsync();
             if (!result) throw new InvalidOperationException();
 
-            SetCache(entity);
-            return _mapper.Map<TReadDto>(entity);
+            var createdEntity = await repository.GetByIdAsync(entity.Id);
+            SetCache(createdEntity!);
+            return _mapper.Map<TReadDto>(createdEntity);
         }
         catch (Exception e)
         {
