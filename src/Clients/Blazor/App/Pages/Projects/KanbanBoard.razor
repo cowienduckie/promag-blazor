@@ -35,12 +35,18 @@
     <ItemRenderer>
         <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">
             @context.Name
-            <MudIconButton Icon="@Icons.Filled.Info" OnClick="@(()=>{_drawer.MainTask = @context; Console.WriteLine(_drawer.MainTask.Name);})"></MudIconButton>
+            <MudIconButton Icon="@Icons.Filled.Info" OnClick="@(()=>{_currentTask = @context; OpenDrawer();})"></MudIconButton>
         </MudPaper>
     </ItemRenderer>
 </MudDropContainer>
 
-<MainTaskDetailDrawer @ref="_drawer" MainTask="@(new KanbanTask())" />
+<MudDrawer @bind-Open="_drawerOpen" Fixed="true" ClipMode="DrawerClipMode.Docked" Anchor="Anchor.End" Elevation="1">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6" Class="px-4">@_currentTask.Name?.ToUpper()</MudText>
+        <MudIconButton Icon="@Icons.Filled.Info" OnClick="@(CloseDrawer)"></MudIconButton>
+    </MudDrawerHeader>
+    <MudText Typo="Typo.body1" Class="my-2">@_currentTask.Id - @_currentTask.Name</MudText>
+</MudDrawer>
 
 @code 
 {
@@ -59,7 +65,6 @@
     private List<KanbanSection> _sections { get; set; } = _baseSections;
 
     private MudDropContainer<KanbanTask>? _dropContainer;
-    private MainTaskDetailDrawer _drawer;
     #endregion
 
     #region Component Render
@@ -147,6 +152,22 @@
     }
     #endregion
 
+    #region Task Detailed Drawer
+    private KanbanTask _currentTask = new();
+    
+    private bool _drawerOpen = false;
+
+    private void OpenDrawer()
+    {
+        _drawerOpen = true;
+    }
+
+    private void CloseDrawer()
+    {
+        _drawerOpen = false;
+    }
+    #endregion
+
     #region Kanban Classes
     public class KanbanTask
     {
@@ -197,5 +218,4 @@
     }
 
     #endregion
-
 }
