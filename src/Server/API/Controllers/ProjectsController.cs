@@ -6,6 +6,7 @@ using ProMag.Server.Core.Domain.Supervisor;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTransferObjects.UpdateDtos;
+using ProMag.Server.Api.Attributes;
 using ProMag.Shared.Models;
 
 namespace ProMag.Server.Api.Controllers;
@@ -13,6 +14,7 @@ namespace ProMag.Server.Api.Controllers;
 [Route("api/[controller]")]
 [EnableCors("CorsPolicy")]
 [ApiController]
+[Authorize]
 public class ProjectsController : BaseController
 {
     public ProjectsController(ISupervisor supervisor) : base(supervisor)
