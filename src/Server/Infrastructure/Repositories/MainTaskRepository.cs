@@ -30,4 +30,15 @@ public class MainTaskRepository : BaseRepository<MainTask>, IMainTaskRepository
             .Include(e => e.SubTasks)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<IEnumerable<MainTask>> GetByProjectId(int projectId)
+    {
+        return await DataContext.MainTasks
+            .Where(e => !e.IsDelete && e.ProjectId == projectId)
+            .Include(e => e.Status)
+            .Include(e => e.Properties)
+            .Include(e => e.SubTasks)
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

@@ -1,4 +1,3 @@
-using ProMag.Server.Core.Domain.Entities;
 using ProMag.Shared.Models;
 using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 

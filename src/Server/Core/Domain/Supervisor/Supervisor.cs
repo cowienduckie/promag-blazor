@@ -13,17 +13,20 @@ public partial class Supervisor : ISupervisor
     private readonly IMapper _mapper;
     private readonly IServiceProvider _serviceProvider;
     private readonly IProjectRepository _projectRepository;
+    private readonly IMainTaskRepository _mainTaskRepository;
 
     public Supervisor(
         IMemoryCache cache,
         IMapper mapper,
         IServiceProvider serviceProvider,
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        IMainTaskRepository mainTaskRepository)
     {
         _cache = cache;
         _mapper = mapper;
         _serviceProvider = serviceProvider;
         _projectRepository = projectRepository;
+        _mainTaskRepository = mainTaskRepository;
     }
 
     public async Task<IEnumerable<TReadDto>> GetAllAsync<TEntity, TReadDto>() where TEntity : BaseEntity

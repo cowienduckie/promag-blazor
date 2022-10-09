@@ -1,4 +1,5 @@
 ﻿using ProMag.Server.Core.Domain.Entities;
+using ProMag.Shared.DataTransferObjects.ReadDtos;
 using ProMag.Shared.DataTypes;
 using ProMag.Shared.Models;
 
@@ -20,5 +21,11 @@ public interface ISupervisor
 
     #region Projects
     Task<IEnumerable<SectionModel>> GetSectionsAsync();
+    #endregion
+
+    #region MainTasks
+
+    Task<IEnumerable<MainTaskReadDto>> GetMainTasksByProjectId(int projectId);
+
     #endregion
 }

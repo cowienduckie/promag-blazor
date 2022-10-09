@@ -33,6 +33,21 @@ public class MainTasksController : BaseController
         }
     }
 
+    [HttpGet("[action]")]
+    public async Task<ActionResult<IEnumerable<MainTaskReadDto>>> GetByProjectId(int projectId)
+    {
+        try
+        {
+            var result = await Supervisor.GetMainTasksByProjectId(projectId);
+
+            return !result.Any() ? NotFound() : Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e);
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<MainTaskReadDto>> GetByIdAsync(int id)
     {
