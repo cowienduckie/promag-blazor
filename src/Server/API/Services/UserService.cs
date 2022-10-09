@@ -6,7 +6,7 @@ using ProMag.Server.Core.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ProMag.Server.Core.Domain.Models;
+using ProMag.Shared.Models;
 
 namespace ProMag.Server.Api.Services;
 
@@ -51,7 +51,14 @@ public interface IUserService
             // authentication successful so generate jwt token
             var token = GenerateJwtToken(user);
 
-            return new SignInResponseModel(user, token);
+            return new SignInResponseModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.UserName,
+                Token = token,
+            };
         }
 
         public async Task<bool> SignUp(SignUpRequestModel model)

@@ -10,6 +10,9 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
     protected readonly HttpClient _client;
     protected readonly JsonSerializerOptions _jsonSerializerOptions;
 
+    private const string _token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNmYjc5MTQ5LTkwMWQtNDRhOC04ZTk3LTI0OTQzZGJiMzNlNCIsIm5iZiI6MTY2NTMzMzQ2MywiZXhwIjoxNjY1OTM4MjYyLCJpYXQiOjE2NjUzMzM0NjN9.CdNJz5YsOydCpL2J1TfchmjdPjQlqkEA2crjZbzHzYA";
+
     protected BaseService(HttpClient client)
     {
         _client = client;
@@ -28,7 +31,16 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task<T> RestGetRequest<T>(string uri)
     {
-        var response = await _client.GetAsync(uri);
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri(_client.BaseAddress + uri),
+            Method = HttpMethod.Get,
+            Headers =
+            {
+                {"auth", _token}
+            }
+        };
+        var response = await _client.SendAsync(request);
         var content = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
@@ -39,9 +51,19 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task<TReadDto> RestPostRequest(string uri, TCreateDto createDto)
     {
-        var body = JsonSerializer.Serialize(createDto);
-        var requestContent = new StringContent(body, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync(uri, requestContent);
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri(_client.BaseAddress + uri),
+            Method = HttpMethod.Post,
+            Headers =
+            {
+                {"auth", _token}
+            },
+            Content = new StringContent(JsonSerializer.Serialize(createDto),
+                Encoding.UTF8,
+                "application/json")
+        };
+        var response = await _client.SendAsync(request);
         var content = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
@@ -52,7 +74,17 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task RestDeleteRequest(string uri)
     {
-        var response = await _client.DeleteAsync(uri);
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri(_client.BaseAddress + uri),
+            Method = HttpMethod.Delete,
+            Headers =
+            {
+                {"auth", _token}
+            }
+        };
+        var response = await _client.SendAsync(request);
+
 
         if (!response.IsSuccessStatusCode) throw new ApplicationException();
     }

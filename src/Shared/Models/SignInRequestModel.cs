@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProMag.Server.Core.Domain.Models
+namespace ProMag.Shared.Models
 {
     public class SignInRequestModel
     {

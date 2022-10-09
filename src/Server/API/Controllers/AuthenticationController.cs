@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProMag.Server.Api.Services;
-using ProMag.Server.Core.Domain.Models;
+using ProMag.Shared.Models;
 
 namespace ProMag.Server.Api.Controllers
 {

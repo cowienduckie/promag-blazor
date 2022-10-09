@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IProjectService ProjectService
+@inject IAuthenticationService AuthenticationService
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -9,8 +10,9 @@
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
         <MudSpacer/>
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank"/>
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank"/>
+        @*<MudLink Href="#" Typo="Typo.body2" Target="_blank">Sign Up</MudLink>
+        <MudLink Href="#" Typo="Typo.body2" Target="_blank">Sign In</MudLink>*@
+        <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" OnClick="@(LogIn)"/>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Docked" Elevation="1">
         <MudDrawerHeader>
@@ -44,4 +46,24 @@
         Projects = (List<ProjectSimplifiedModel>) projects;
     }
 
+
+    private async Task LogIn()
+    {
+        var signInModel = new SignInRequestModel
+        {
+            UserName = "minhtran244",
+            Password = "minhtran244",
+            RememberMe = true
+        };
+        try
+        {
+            var response = await AuthenticationService.SignIn(signInModel);
+
+            Console.WriteLine(response.Username);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 }
