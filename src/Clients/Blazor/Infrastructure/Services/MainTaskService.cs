@@ -23,9 +23,31 @@ public class MainTaskService : BaseService<MainTaskReadDto, MainTaskCreateDto, M
         throw new NotImplementedException();
     }
 
-    public override Task DeleteAsync(int id)
+    public async Task<IEnumerable<MainTaskReadDto>> GetByProjectId(int projectId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await RestGetRequest<IEnumerable<MainTaskReadDto>>(
+                $"{MainTaskEndpoints.MainTask}/GetByProjectId?projectId={projectId}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public override async Task DeleteAsync(int id)
+    {
+        try
+        {
+            await RestDeleteRequest($"{MainTaskEndpoints.MainTask}/{id}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public override async Task<MainTaskReadDto> CreateAsync(MainTaskCreateDto createDto)

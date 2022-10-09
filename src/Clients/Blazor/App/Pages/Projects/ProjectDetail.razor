@@ -58,8 +58,6 @@
     </ChildContent>
     <ItemRenderer>
         <MudPaper Elevation="25" Class="pa-4 rounded-lg my-3">
-            
-            
             <MudToolBar DisableGutters="true">
                 <MudText Typo="Typo.body1">
                     @context.Name
@@ -99,5 +97,6 @@
     <MudButton
         StartIcon="@Icons.Filled.Delete"
         FullWidth="true"
+        OnClick="@(async() => { await DeleteTask(); CloseDrawer();})"
         Class="rounded-lg py-2">Delete Task</MudButton>
 </MudDrawer>

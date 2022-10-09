@@ -49,4 +49,11 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
         return JsonSerializer.Deserialize<TReadDto>(content, _jsonSerializerOptions)
                ?? throw new InvalidOperationException();
     }
+
+    protected async Task RestDeleteRequest(string uri)
+    {
+        var response = await _client.DeleteAsync(uri);
+
+        if (!response.IsSuccessStatusCode) throw new ApplicationException();
+    }
 }

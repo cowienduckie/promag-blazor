@@ -6,4 +6,5 @@ namespace ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 
 public interface IMainTaskService : IBaseService<MainTaskReadDto, MainTaskCreateDto, MainTaskUpdateDto>
 {
+    Task<IEnumerable<MainTaskReadDto>> GetByProjectId(int projectId);
 }

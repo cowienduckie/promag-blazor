@@ -46,18 +46,11 @@ public partial class ProjectDetail
 
     protected override async Task OnParametersSetAsync()
     {
-        var project = await ProjectService.GetByIdAsync(ProjectId);
+        var mainTasks = await MainTaskService.GetByProjectId(ProjectId);
 
-        Project = project;
+        Project = await ProjectService.GetByIdAsync(ProjectId);
 
-        if (Project.MainTasks != null && Project.MainTasks.Any())
-        {
-            Tasks = Project.MainTasks.ToList();
-        }
-        else
-        {
-            Tasks.Clear();
-        }
+        Tasks = mainTasks?.ToList() ?? new List<MainTaskReadDto>();
 
         RefreshContainer();
     }
@@ -90,6 +83,28 @@ public partial class ProjectDetail
             section.NewTaskName = string.Empty;
             section.NewTaskOpen = false;
 
+            RefreshContainer();
+        }
+    }
+
+    private async Task DeleteTask()
+    {
+        try
+        {
+            await MainTaskService.DeleteAsync(_currentTask.Id);
+
+            Tasks.Remove(_currentTask);
+
+            _currentTask = new MainTaskReadDto();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+            // TODO: Pop-up error msg
+        }
+        finally
+        {
             RefreshContainer();
         }
     }
