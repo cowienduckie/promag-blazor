@@ -43,6 +43,16 @@ public class HttpService : IHttpService
         return await sendRequest<T>(request);
     }
 
+    public async Task<bool> Post(string uri, object value)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        request.Content = new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
+
+        using var response = await _httpClient.SendAsync(request);
+
+        return response.IsSuccessStatusCode;
+    }
+
     // helper methods
 
     private async Task<T> sendRequest<T>(HttpRequestMessage request)

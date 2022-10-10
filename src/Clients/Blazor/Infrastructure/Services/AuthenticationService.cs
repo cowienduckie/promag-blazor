@@ -31,16 +31,13 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task SignIn(SignInRequestModel signInModel)
     {
-        try
-        {
-            User = await _httpService.Post<SignInResponseModel>(AuthenticationEndpoints.SignIn, signInModel);
-            await _localStorageService.SetItem("user", User);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        User = await _httpService.Post<SignInResponseModel>(AuthenticationEndpoints.SignIn, signInModel);
+        await _localStorageService.SetItem("user", User);
+    }
+
+    public async Task<bool> SignUp(SignUpRequestModel signUpModel)
+    {
+        return await _httpService.Post(AuthenticationEndpoints.SignUp, signUpModel);
     }
 
     public async Task SignOut()
