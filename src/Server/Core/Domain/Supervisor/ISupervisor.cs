@@ -20,7 +20,9 @@ public interface ISupervisor
     Task<bool> DeleteAsync<TEntity>(int id) where TEntity : BaseEntity;
 
     #region Projects
+
     Task<IEnumerable<SectionModel>> GetSectionsAsync();
+
     #endregion
 
     #region MainTasks

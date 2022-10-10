@@ -4,6 +4,8 @@ namespace ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 
 public interface IAuthenticationService
 {
-    Task<SignInResponseModel> SignIn(SignInRequestModel signInModel);
-    Task SignUp(SignUpRequestModel signUpModel);
+    SignInResponseModel? User { get; }
+    Task Initialize();
+    Task SignIn(SignInRequestModel signInModel);
+    Task SignOut();
 }

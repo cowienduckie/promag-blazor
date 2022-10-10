@@ -1,46 +1,40 @@
-﻿using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
-using System.Text.Json;
-using ProMag.Shared.Models;
-using Newtonsoft.Json.Linq;
-using System.Text;
-using System;
+﻿using Microsoft.AspNetCore.Components;
 using ProMag.Client.Blazor.Infrastructure.Routes;
+using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
+using ProMag.Shared.Models;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly HttpClient _client;
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly IHttpService _httpService;
+    private readonly ILocalStorageService _localStorageService;
+    private readonly NavigationManager _navigationManager;
 
-    public AuthenticationService(HttpClient client)
+    public AuthenticationService(
+        IHttpService httpService,
+        NavigationManager navigationManager,
+        ILocalStorageService localStorageService
+    )
     {
-        _client = client;
-        _jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
+        _httpService = httpService;
+        _navigationManager = navigationManager;
+        _localStorageService = localStorageService;
     }
 
-    public async Task<SignInResponseModel> SignIn(SignInRequestModel signInModel)
+    public SignInResponseModel? User { get; private set; }
+
+    public async Task Initialize()
+    {
+        User = await _localStorageService.GetItem<SignInResponseModel>("user");
+    }
+
+    public async Task SignIn(SignInRequestModel signInModel)
     {
         try
         {
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri(_client.BaseAddress + AuthenticationEndpoints.SignIn),
-                Method = HttpMethod.Post,
-                Content = new StringContent(JsonSerializer.Serialize(signInModel),
-                    Encoding.UTF8,
-                    "application/json")
-            };
-            var response = await _client.SendAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-            return JsonSerializer.Deserialize<SignInResponseModel>(content, _jsonSerializerOptions)
-                   ?? throw new InvalidOperationException();
+            User = await _httpService.Post<SignInResponseModel>(AuthenticationEndpoints.SignIn, signInModel);
+            await _localStorageService.SetItem("user", User);
         }
         catch (Exception e)
         {
@@ -49,26 +43,10 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
-    public async Task SignUp(SignUpRequestModel signUpModel)
+    public async Task SignOut()
     {
-        try
-        {
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri(_client.BaseAddress + AuthenticationEndpoints.SignUp),
-                Method = HttpMethod.Post,
-                Content = new StringContent(JsonSerializer.Serialize(signUpModel),
-                    Encoding.UTF8,
-                    "application/json")
-            };
-            var response = await _client.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode) throw new ApplicationException();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        User = null;
+        await _localStorageService.RemoveItem("user");
+        _navigationManager.NavigateTo("login");
     }
 }

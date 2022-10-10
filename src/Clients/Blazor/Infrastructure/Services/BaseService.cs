@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
+﻿using System.Text;
 using System.Text.Json;
-using System.Text;
+using Microsoft.AspNetCore.JsonPatch;
+using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
-public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto, TUpdateDto> where TUpdateDto:class
+public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto, TUpdateDto>
+    where TUpdateDto : class
 {
-    protected readonly HttpClient _client;
-    protected readonly JsonSerializerOptions _jsonSerializerOptions;
-
     private const string _token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNmYjc5MTQ5LTkwMWQtNDRhOC04ZTk3LTI0OTQzZGJiMzNlNCIsIm5iZiI6MTY2NTMzMzQ2MywiZXhwIjoxNjY1OTM4MjYyLCJpYXQiOjE2NjUzMzM0NjN9.CdNJz5YsOydCpL2J1TfchmjdPjQlqkEA2crjZbzHzYA";
+
+    protected readonly HttpClient _client;
+    protected readonly JsonSerializerOptions _jsonSerializerOptions;
 
     protected BaseService(HttpClient client)
     {

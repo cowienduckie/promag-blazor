@@ -7,17 +7,20 @@
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar Elevation="0">
+    <MudAppBar Elevation="0" Color="Color.Dark">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
+        <MudText Typo="Typo.h6" Class="px-4">ProMag</MudText>
         <MudSpacer/>
-        @*<MudLink Href="#" Typo="Typo.body2" Target="_blank">Sign Up</MudLink>
-        <MudLink Href="#" Typo="Typo.body2" Target="_blank">Sign In</MudLink>*@
-        <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" OnClick="@(LogIn)"/>
+        @if (AuthenticationService.User != null)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Href="/signout"/>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Href="/signin"/>
+        }
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Docked" Elevation="1">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6" Class="px-4">ProMag</MudText>
-        </MudDrawerHeader>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Docked" Elevation="1" Class="py-5">
         <NavMenu Projects="Projects"/>
     </MudDrawer>
     <MudMainContent>
@@ -46,24 +49,4 @@
         Projects = (List<ProjectSimplifiedModel>) projects;
     }
 
-
-    private async Task LogIn()
-    {
-        var signInModel = new SignInRequestModel
-        {
-            UserName = "minhtran244",
-            Password = "minhtran244",
-            RememberMe = true
-        };
-        try
-        {
-            var response = await AuthenticationService.SignIn(signInModel);
-
-            Console.WriteLine(response.Username);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
 }

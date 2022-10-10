@@ -31,6 +31,9 @@ public static class WebAssemblyHostBuilderExtensions
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IMainTaskService, MainTaskService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IHttpService, HttpService>();
+        services.AddScoped<ILocalStorageService, LocalStorageService>();
+
 
         return services;
     }

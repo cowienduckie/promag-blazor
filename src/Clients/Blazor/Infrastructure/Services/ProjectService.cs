@@ -1,5 +1,3 @@
-using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using ProMag.Client.Blazor.Infrastructure.Routes;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
@@ -56,7 +54,8 @@ public class ProjectService : BaseService<ProjectReadDto, ProjectCreateDto, Proj
     {
         try
         {
-            return await RestGetRequest<IEnumerable<ProjectSimplifiedModel>>($"{ProjectEndpoints.Projects}?simplified=true");
+            return await RestGetRequest<IEnumerable<ProjectSimplifiedModel>>(
+                $"{ProjectEndpoints.Projects}?simplified=true");
         }
         catch (Exception e)
         {

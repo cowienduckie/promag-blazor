@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Infrastructure\ProMag.Client.Blazor.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ProMag.Client.Blazor.Infrastructure.Services;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
 using ProMag.Shared.DataTransferObjects.ReadDtos;
@@ -10,16 +9,49 @@ namespace ProMag.Client.Blazor.App.Pages.Projects;
 public partial class ProjectDetail
 {
     #region Params
-    [Parameter]
-    public int ProjectId { get; set; }
+
+    [Parameter] public int ProjectId { get; set; }
+
+    #endregion
+
+    #region Board Events
+
+    private void TaskUpdated(MudItemDropInfo<MainTaskReadDto> dropItem)
+    {
+        dropItem.Item.Status.Name = dropItem.DropzoneIdentifier;
+    }
+
+    #endregion
+
+    #region Kanban Classes
+
+    public class Section
+    {
+        public Section(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public Section()
+        {
+            Id = NO_STATUS_ID;
+            Name = NO_STATUS;
+        }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool NewTaskOpen { get; set; }
+        public string NewTaskName { get; set; } = string.Empty;
+    }
+
     #endregion
 
     #region Props
-    [Inject]
-    private IProjectService ProjectService { get; set; } = null!;
 
-    [Inject]
-    private IMainTaskService MainTaskService { get; set; } = null!;
+    [Inject] private IProjectService ProjectService { get; set; } = null!;
+
+    [Inject] private IMainTaskService MainTaskService { get; set; } = null!;
 
     private const int NO_STATUS_ID = 0;
     private const string NO_STATUS = "No Status";
@@ -29,6 +61,7 @@ public partial class ProjectDetail
     private List<MainTaskReadDto> Tasks { get; set; } = new();
     private List<Section> Sections { get; set; } = new();
     private MudDropContainer<MainTaskReadDto>? _dropContainer = new();
+
     #endregion
 
     #region Component Render
@@ -54,9 +87,11 @@ public partial class ProjectDetail
 
         RefreshContainer();
     }
+
     #endregion
 
     #region Board Functions
+
     private async Task AddTask(Section section)
     {
         MainTaskCreateDto newTask = new()
@@ -114,50 +149,28 @@ public partial class ProjectDetail
         StateHasChanged();
         _dropContainer?.Refresh();
     }
-    #endregion
 
-    #region Board Events
-    private void TaskUpdated(MudItemDropInfo<MainTaskReadDto> dropItem)
-    {
-        dropItem.Item.Status.Name = dropItem.DropzoneIdentifier;
-    }
     #endregion
 
     #region Task Detailed Drawer
+
     private MainTaskReadDto _currentTask = new();
-    private bool _drawerOpen = false;
+    private bool _drawerOpen;
 
     private void OpenDrawer()
     {
         _drawerOpen = true;
     }
+
     private void CloseDrawer()
     {
         _drawerOpen = false;
     }
+
     private void ToggleDrawer()
     {
         _drawerOpen = !_drawerOpen;
     }
-    #endregion
 
-    #region Kanban Classes
-    public class Section
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool NewTaskOpen { get; set; } = false;
-        public string NewTaskName { get; set; } = string.Empty;
-        public Section(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-        public Section()
-        {
-            Id = NO_STATUS_ID;
-            Name = NO_STATUS;
-        }
-    }
     #endregion
 }

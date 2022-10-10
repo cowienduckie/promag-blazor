@@ -10,10 +10,10 @@ namespace ProMag.Server.Core.Domain.Supervisor;
 public partial class Supervisor : ISupervisor
 {
     private readonly IMemoryCache _cache;
-    private readonly IMapper _mapper;
-    private readonly IServiceProvider _serviceProvider;
-    private readonly IProjectRepository _projectRepository;
     private readonly IMainTaskRepository _mainTaskRepository;
+    private readonly IMapper _mapper;
+    private readonly IProjectRepository _projectRepository;
+    private readonly IServiceProvider _serviceProvider;
 
     public Supervisor(
         IMemoryCache cache,

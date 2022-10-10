@@ -1,6 +1,16 @@
 ﻿@page "/"
+@attribute [Authorize]
+@inject IAuthenticationService AuthenticationService
 
 <PageTitle>Home</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, Minh Tran!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
+@if (AuthenticationService.User != null)
+{
+    <MudText Typo="Typo.h3" GutterBottom="true">Hello, @(AuthenticationService.User.Username)!</MudText>
+    <MudText Class="mb-8">Welcome to ProMag!</MudText>
+}
+else
+{
+    <MudText Typo="Typo.h3" GutterBottom="true">Hello, Guest!</MudText>
+    <MudText Class="mb-8">Please <MudLink Href="/signin">Sign In</MudLink> to continue</MudText>
+}

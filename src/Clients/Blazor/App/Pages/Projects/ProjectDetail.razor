@@ -1,8 +1,8 @@
 ﻿@page "/projects/{ProjectId:int}"
 
 <MudText Typo="Typo.h4">@Project.Name.ToUpper()</MudText>
-<MudButton OnClick="@this.RefreshContainer">Refresh</MudButton>
-<MudDivider Class="my-3" />
+<MudButton OnClick="@RefreshContainer">Refresh</MudButton>
+<MudDivider Class="my-3"/>
 
 <MudDropContainer
     T="MainTaskReadDto"
@@ -23,12 +23,12 @@
                     <MudText Typo="Typo.subtitle1">
                         <b>@item.Name</b>
                     </MudText>
-                    <MudSpacer />
+                    <MudSpacer/>
                 </MudToolBar>
                 <MudDropZone
                     T="MainTaskReadDto"
                     Identifier="@item.Name"
-                    Class="mud-height-full" />
+                    Class="mud-height-full"/>
                 @if (item.NewTaskOpen)
                 {
                     <MudPaper Elevation="25" Class="pa-2 rounded-lg">
@@ -37,12 +37,15 @@
                             Placeholder="New Task"
                             DisableUnderLine="true"
                             Margin="Margin.Dense"
-                            Class="mx-2 mt-n2"></MudTextField>
+                            Class="mx-2 mt-n2">
+                        </MudTextField>
                         <MudButton
                             OnClick="@(() => AddTask(item))"
                             Size="Size.Small"
                             Color="Color.Primary"
-                            FullWidth="true">Add Task</MudButton>
+                            FullWidth="true">
+                            Add Task
+                        </MudButton>
                     </MudPaper>
                 }
                 else
@@ -51,7 +54,9 @@
                         OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)"
                         StartIcon="@Icons.Filled.Add"
                         FullWidth="true"
-                        Class="rounded-lg py-2">Add Task</MudButton>
+                        Class="rounded-lg py-2">
+                        Add Task
+                    </MudButton>
                 }
             </MudPaper>
         }
@@ -62,10 +67,10 @@
                 <MudText Typo="Typo.body1">
                     @context.Name
                 </MudText>
-                <MudSpacer />
+                <MudSpacer/>
                 <MudIconButton
                     Icon="@Icons.Filled.Info"
-                    OnClick="@(() =>{_currentTask = @context; OpenDrawer();})">
+                    OnClick="@(() =>{_currentTask = context; OpenDrawer();})">
                 </MudIconButton>
             </MudToolBar>
         </MudPaper>
@@ -84,19 +89,21 @@
         <MudText Typo="Typo.h6">
             @_currentTask.Name?.ToUpper()
         </MudText>
-        <MudSpacer />
+        <MudSpacer/>
         <MudIconButton
             Icon="@Icons.Outlined.Cancel"
             OnClick="@(CloseDrawer)">
         </MudIconButton>
     </MudToolBar>
     <MudPaper Elevation="0"
-        Class="mud-height-full mud-background-gray pa-2 my-2">
+              Class="mud-height-full mud-background-gray pa-2 my-2">
         <MudText Typo="Typo.body1">@_currentTask.Id - @_currentTask.Name</MudText>
     </MudPaper>
     <MudButton
         StartIcon="@Icons.Filled.Delete"
         FullWidth="true"
-        OnClick="@(async() => { await DeleteTask(); CloseDrawer();})"
-        Class="rounded-lg py-2">Delete Task</MudButton>
+        OnClick="@(async () => { await DeleteTask(); CloseDrawer();})"
+        Class="rounded-lg py-2">
+        Delete Task
+    </MudButton>
 </MudDrawer>

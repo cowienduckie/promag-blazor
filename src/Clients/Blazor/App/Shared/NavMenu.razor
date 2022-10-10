@@ -1,10 +1,15 @@
-﻿<MudNavMenu Class="mud-width-full" Bordered="true">
+﻿@inject IAuthenticationService AuthenticationService
+
+<MudNavMenu Class="mud-width-full" Bordered="true">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudDivider Class="my-2"/>
     <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
-        @foreach (var p in Projects)
+        @if (AuthenticationService.User != null)
         {
-            <MudNavLink Href=@("/projects/" + p.Id) Match="NavLinkMatch.All">@p.Name</MudNavLink>
+            @foreach (var p in Projects)
+            {
+                <MudNavLink Href=@("/projects/" + p.Id) Match="NavLinkMatch.All">@p.Name</MudNavLink>
+            }
         }
     </MudNavGroup>
 </MudNavMenu>

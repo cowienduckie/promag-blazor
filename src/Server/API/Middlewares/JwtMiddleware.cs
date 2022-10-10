@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProMag.Server.Api.Configurations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using ProMag.Server.Api.Services;
 
 namespace ProMag.Server.Api.Middlewares;
