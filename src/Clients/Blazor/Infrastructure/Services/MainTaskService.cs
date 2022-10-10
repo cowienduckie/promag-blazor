@@ -33,7 +33,8 @@ public class MainTaskService : BaseService<MainTaskReadDto, MainTaskCreateDto, M
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+
+            return new List<MainTaskReadDto>();
         }
     }
 

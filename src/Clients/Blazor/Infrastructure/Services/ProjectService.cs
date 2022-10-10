@@ -16,7 +16,15 @@ public class ProjectService : BaseService<ProjectReadDto, ProjectCreateDto, Proj
 
     public override async Task<ProjectReadDto> CreateAsync(ProjectCreateDto createDto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await RestPostRequest(ProjectEndpoints.Projects, createDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public override Task DeleteAsync(int id)

@@ -1,22 +1,92 @@
-﻿@inject IAuthenticationService AuthenticationService
+﻿@using ProMag.Shared.DataTransferObjects.CreateDtos
+@inject IProjectService ProjectService
+@inject IAuthenticationService AuthenticationService
 
 <MudNavMenu Class="mud-width-full" Bordered="true">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudDivider Class="my-2"/>
-    <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
-        @if (AuthenticationService.User != null)
-        {
+    @if (AuthenticationService.User != null)
+    {
+        <MudNavGroup Title="My Projects" Icon="@Icons.Filled.Dashboard" Expanded="true">
             @foreach (var p in Projects)
             {
                 <MudNavLink Href=@("/projects/" + p.Id) Match="NavLinkMatch.All">@p.Name</MudNavLink>
             }
-        }
-    </MudNavGroup>
+            @if (_newProjectOpen)
+            {
+                <MudPaper Elevation="25" Class="pa-2 rounded-lg">
+                    <MudTextField @bind-Value="_newProjectName"
+                                  Placeholder="New Project"
+                                  DisableUnderLine="true"
+                                  Margin="Margin.Dense"
+                                  Class="mx-2 my-1">
+                    </MudTextField>
+                    <MudButton OnClick="@(AddProject)"
+                               Size="Size.Small"
+                               Color="Color.Primary"
+                               FullWidth="true">
+                        Add Project
+                    </MudButton>
+                    <MudButton OnClick="@(() => _newProjectOpen = !_newProjectOpen)"
+                               Size="Size.Small"
+                               Color="Color.Secondary"
+                               FullWidth="true">
+                        Cancel
+                    </MudButton>
+                </MudPaper>
+            }
+            else
+            {
+                <MudButton OnClick="@(() => _newProjectOpen = !_newProjectOpen)"
+                           StartIcon="@Icons.Filled.Add"
+                           FullWidth="true"
+                           Class="py-2">
+                    Add Project
+                </MudButton>
+            }
+        </MudNavGroup>
+    }
 </MudNavMenu>
 
 @code {
 
     [Parameter]
     public List<ProjectSimplifiedModel> Projects { get; set; } = null!;
+
+    private bool _newProjectOpen = false;
+    private string _newProjectName = string.Empty;
+
+    private async Task AddProject()
+    {
+        ProjectCreateDto newProject = new()
+        {
+            Name = _newProjectName,
+            StatusId = 1
+        };
+
+        try
+        {
+            var createdProject = await ProjectService.CreateAsync(newProject);
+
+            Projects.Add(new ProjectSimplifiedModel
+            {
+                Id = createdProject.Id,
+                Name = createdProject.Name
+            });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+    // TODO: Pop-up error msg
+        }
+        finally
+        {
+            _newProjectName = string.Empty;
+            _newProjectOpen = false;
+
+            StateHasChanged();
+        }
+    }
 
 }
