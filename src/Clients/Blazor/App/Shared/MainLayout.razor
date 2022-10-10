@@ -42,7 +42,7 @@
     // Get project list
     private List<ProjectSimplifiedModel> Projects { get; set; } = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var projects = await ProjectService.GetAllSimplifiedAsync();
 

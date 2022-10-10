@@ -10,7 +10,7 @@ namespace ProMag.Client.Blazor.Infrastructure.Services;
 
 public class ProjectService : BaseService<ProjectReadDto, ProjectCreateDto, ProjectUpdateDto>, IProjectService
 {
-    public ProjectService(HttpClient client) : base(client)
+    public ProjectService(HttpClient client, IAuthenticationService authenticationService) : base(client, authenticationService)
     {
     }
 

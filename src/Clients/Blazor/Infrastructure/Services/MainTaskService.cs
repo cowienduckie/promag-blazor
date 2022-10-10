@@ -9,7 +9,7 @@ namespace ProMag.Client.Blazor.Infrastructure.Services;
 
 public class MainTaskService : BaseService<MainTaskReadDto, MainTaskCreateDto, MainTaskUpdateDto>, IMainTaskService
 {
-    public MainTaskService(HttpClient client) : base(client)
+    public MainTaskService(HttpClient client, IAuthenticationService authenticationService) : base(client, authenticationService)
     {
     }
 

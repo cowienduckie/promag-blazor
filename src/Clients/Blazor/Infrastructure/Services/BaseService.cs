@@ -8,19 +8,25 @@ namespace ProMag.Client.Blazor.Infrastructure.Services;
 public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseService<TReadDto, TCreateDto, TUpdateDto>
     where TUpdateDto : class
 {
-    private const string _token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNmYjc5MTQ5LTkwMWQtNDRhOC04ZTk3LTI0OTQzZGJiMzNlNCIsIm5iZiI6MTY2NTMzMzQ2MywiZXhwIjoxNjY1OTM4MjYyLCJpYXQiOjE2NjUzMzM0NjN9.CdNJz5YsOydCpL2J1TfchmjdPjQlqkEA2crjZbzHzYA";
+    private string _token = string.Empty;
 
     protected readonly HttpClient _client;
+    protected readonly IAuthenticationService _authenticationService;
     protected readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    protected BaseService(HttpClient client)
+    protected BaseService(HttpClient client, IAuthenticationService authenticationService)
     {
         _client = client;
         _jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
+        _authenticationService = authenticationService;
+
+        if (_authenticationService.User != null)
+        {
+            _token = _authenticationService.User.Token;
+        }
     }
 
     public abstract Task<IEnumerable<TReadDto>> GetAllAsync();
@@ -32,6 +38,11 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task<T> RestGetRequest<T>(string uri)
     {
+        if (_authenticationService.User != null)
+        {
+            _token = _authenticationService.User.Token;
+        }
+
         var request = new HttpRequestMessage
         {
             RequestUri = new Uri(_client.BaseAddress + uri),
@@ -52,6 +63,11 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task<TReadDto> RestPostRequest(string uri, TCreateDto createDto)
     {
+        if (_authenticationService.User != null)
+        {
+            _token = _authenticationService.User.Token;
+        }
+
         var request = new HttpRequestMessage
         {
             RequestUri = new Uri(_client.BaseAddress + uri),
@@ -75,6 +91,11 @@ public abstract class BaseService<TReadDto, TCreateDto, TUpdateDto> : IBaseServi
 
     protected async Task RestDeleteRequest(string uri)
     {
+        if (_authenticationService.User != null)
+        {
+            _token = _authenticationService.User.Token;
+        }
+
         var request = new HttpRequestMessage
         {
             RequestUri = new Uri(_client.BaseAddress + uri),
