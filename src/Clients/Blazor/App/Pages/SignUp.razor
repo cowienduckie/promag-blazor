@@ -56,8 +56,7 @@
 
             if (result)
             {
-                var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
-                NavigationManager.NavigateTo(returnUrl);
+                NavigationManager.NavigateTo("/signin");
             }
         }
         catch (Exception ex)
