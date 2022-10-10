@@ -1,0 +1,59 @@
+﻿@page "/signin"
+@using ProMag.Client.Blazor.App.Helpers
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h4">SIGN IN</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Username"
+                                  @bind-Value="model.UserName" For="@(() => model.UserName)"/>
+                    <MudTextField Label="Password"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Sign In</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    private readonly SignInRequestModel model = new();
+    private bool loading;
+    private string error;
+
+    protected override void OnInitialized()
+    {
+    // redirect to home if already logged in
+        if (AuthenticationService.User != null)
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        loading = true;
+        try
+        {
+            await AuthenticationService.SignIn(model);
+            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
+            NavigationManager.NavigateTo(returnUrl);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+}

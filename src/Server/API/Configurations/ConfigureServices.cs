@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ProMag.Server.Api.Services;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Repositories;
 using ProMag.Server.Core.Domain.Supervisor;
@@ -17,10 +18,16 @@ public static class ConfigureServices
     {
         //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IMainTaskRepository, MainTaskRepository>();
         services.AddScoped<IBaseRepository<Project>, ProjectRepository>();
         services.AddScoped<IBaseRepository<Property>, PropertyRepository>();
         services.AddScoped<IBaseRepository<MainTask>, MainTaskRepository>();
         services.AddScoped<IBaseRepository<SubTask>, SubTaskRepository>();
+    }
+
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
     }
 
     public static void ConfigureSupervisor(this IServiceCollection services)
@@ -66,9 +73,9 @@ public static class ConfigureServices
     {
         services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(option =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo
+            option.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
                 Title = "ProMag API",
@@ -79,7 +86,7 @@ public static class ConfigureServices
                     Url = new Uri("https://lowkeycode.me")
                 }
             });
-            //c.OperationFilter<AddRequiredHeaderParameter>();
+            option.OperationFilter<AddRequiredHeaderParameter>();
         });
     }
 
@@ -131,7 +138,7 @@ public class AddRequiredHeaderParameter : IOperationFilter
 
         operation.Parameters.Add(new OpenApiParameter
         {
-            Name = "Authorization",
+            Name = "auth",
             In = ParameterLocation.Header,
             Required = false
         });

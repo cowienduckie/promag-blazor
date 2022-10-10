@@ -1,22 +1,19 @@
-using ProMag.Server.Core.Domain.Entities;
 using ProMag.Shared.Models;
 using TaskStatus = ProMag.Server.Core.Domain.Entities.TaskStatus;
 
 namespace ProMag.Server.Core.Domain.Supervisor;
 
-public partial class Supervisor : ISupervisor
+public partial class Supervisor
 {
     public async Task<IEnumerable<SectionModel>> GetSectionsAsync()
     {
-         try
+        try
         {
-            const string SECTIONS_CACHE_KEY = "SECTIONS_CACHE";
+            const string sectionsCacheKey = "SECTIONS_CACHE";
 
-            if (!GetCache(SECTIONS_CACHE_KEY, out IEnumerable<TaskStatus> sections))
-            {
+            if (!GetCache(sectionsCacheKey, out IEnumerable<TaskStatus> sections))
                 sections = await _projectRepository.GetSectionsAsync();
-            }
-            SetCache(sections, SECTIONS_CACHE_KEY);
+            SetCache(sections, sectionsCacheKey);
 
             return _mapper.Map<IEnumerable<SectionModel>>(sections);
         }

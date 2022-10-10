@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using ProMag.Client.Blazor.Infrastructure.Routes;
 using ProMag.Client.Blazor.Infrastructure.Services.Interfaces;
@@ -9,31 +8,31 @@ using ProMag.Shared.Models;
 
 namespace ProMag.Client.Blazor.Infrastructure.Services;
 
-public class ProjectService : IProjectService
+public class ProjectService : BaseService<ProjectReadDto, ProjectCreateDto, ProjectUpdateDto>, IProjectService
 {
-    private readonly HttpClient _client;
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
-
-    public ProjectService(HttpClient client)
+    public ProjectService(HttpClient client) : base(client)
     {
-        _client = client;
-        _jsonSerializerOptions = new JsonSerializerOptions
+    }
+
+    public override async Task<ProjectReadDto> CreateAsync(ProjectCreateDto createDto)
+    {
+        try
         {
-            PropertyNameCaseInsensitive = true
-        };
+            return await RestPostRequest(ProjectEndpoints.Projects, createDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task CreateAsync(ProjectCreateDto createDto)
+    public override Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IEnumerable<ProjectReadDto>> GetAllAsync()
+    public override async Task<IEnumerable<ProjectReadDto>> GetAllAsync()
     {
         try
         {
@@ -46,7 +45,7 @@ public class ProjectService : IProjectService
         }
     }
 
-    public async Task<ProjectReadDto> GetByIdAsync(int id)
+    public override async Task<ProjectReadDto> GetByIdAsync(int id)
     {
         try
         {
@@ -63,7 +62,8 @@ public class ProjectService : IProjectService
     {
         try
         {
-            return await RestGetRequest<IEnumerable<ProjectSimplifiedModel>>($"{ProjectEndpoints.Projects}?simplified=true");
+            return await RestGetRequest<IEnumerable<ProjectSimplifiedModel>>(
+                $"{ProjectEndpoints.Projects}?simplified=true");
         }
         catch (Exception e)
         {
@@ -85,23 +85,13 @@ public class ProjectService : IProjectService
         }
     }
 
-    public Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)
+    public override Task PartialUpdateAsync(int id, JsonPatchDocument<ProjectUpdateDto> updatePatchDoc)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(int id, ProjectUpdateDto updateDto)
+    public override Task UpdateAsync(int id, ProjectUpdateDto updateDto)
     {
         throw new NotImplementedException();
-    }
-
-    private async Task<T> RestGetRequest<T>(string uri)
-    {
-        var response = await _client.GetAsync(uri);
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode) throw new ApplicationException(content);
-
-        return JsonSerializer.Deserialize<T>(content, _jsonSerializerOptions)
-               ?? throw new InvalidOperationException();
     }
 }

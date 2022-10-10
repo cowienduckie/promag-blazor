@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using ProMag.Server.Api.Attributes;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
@@ -13,6 +14,7 @@ namespace ProMag.Server.Api.Controllers;
 [Route("api/[controller]")]
 [EnableCors("CorsPolicy")]
 [ApiController]
+[Authorize]
 public class ProjectsController : BaseController
 {
     public ProjectsController(ISupervisor supervisor) : base(supervisor)
@@ -20,7 +22,7 @@ public class ProjectsController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllAsync(bool simplified=false)
+    public async Task<ActionResult> GetAllAsync(bool simplified = false)
     {
         try
         {
@@ -137,7 +139,7 @@ public class ProjectsController : BaseController
         {
             var result = await Supervisor.GetSectionsAsync();
 
-             return result.Any() ? Ok(result) : NotFound();
+            return result.Any() ? Ok(result) : NotFound();
         }
         catch (Exception e)
         {

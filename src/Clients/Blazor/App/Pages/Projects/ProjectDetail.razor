@@ -1,0 +1,109 @@
+﻿@page "/projects/{ProjectId:int}"
+
+<MudText Typo="Typo.h4">@Project.Name.ToUpper()</MudText>
+<MudButton OnClick="@RefreshContainer">Refresh</MudButton>
+<MudDivider Class="my-3"/>
+
+<MudDropContainer
+    T="MainTaskReadDto"
+    @ref="_dropContainer"
+    Items="Tasks"
+    ItemsSelector="@((item, column) => item.Status.Name == column)"
+    ItemDropped="TaskUpdated"
+    Class="d-flex flex-row flex-nowrap overflow-scroll">
+    <ChildContent>
+        @foreach (var item in Sections)
+        {
+            <MudPaper
+                Elevation="0"
+                Width="20vw"
+                MinHeight="60vh"
+                Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg">
+                <MudToolBar DisableGutters="true">
+                    <MudText Typo="Typo.subtitle1">
+                        <b>@item.Name</b>
+                    </MudText>
+                    <MudSpacer/>
+                </MudToolBar>
+                <MudDropZone
+                    T="MainTaskReadDto"
+                    Identifier="@item.Name"
+                    Class="mud-height-full"/>
+                @if (item.NewTaskOpen)
+                {
+                    <MudPaper Elevation="25" Class="pa-2 rounded-lg">
+                        <MudTextField
+                            @bind-Value="item.NewTaskName"
+                            Placeholder="New Task"
+                            DisableUnderLine="true"
+                            Margin="Margin.Dense"
+                            Class="mx-2 mt-n2">
+                        </MudTextField>
+                        <MudButton
+                            OnClick="@(() => AddTask(item))"
+                            Size="Size.Small"
+                            Color="Color.Primary"
+                            FullWidth="true">
+                            Add Task
+                        </MudButton>
+                    </MudPaper>
+                }
+                else
+                {
+                    <MudButton
+                        OnClick="@(() => item.NewTaskOpen = !item.NewTaskOpen)"
+                        StartIcon="@Icons.Filled.Add"
+                        FullWidth="true"
+                        Class="rounded-lg py-2">
+                        Add Task
+                    </MudButton>
+                }
+            </MudPaper>
+        }
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Elevation="25" Class="py-1 px-4 rounded-lg my-3">
+            <MudToolBar DisableGutters="true">
+                <MudText Typo="Typo.body1">
+                    @context.Name
+                </MudText>
+                <MudSpacer/>
+                <MudIconButton
+                    Icon="@Icons.Filled.Info"
+                    OnClick="@(() =>{_currentTask = context; OpenDrawer();})">
+                </MudIconButton>
+            </MudToolBar>
+        </MudPaper>
+    </ItemRenderer>
+</MudDropContainer>
+
+<MudDrawer
+    @bind-Open="_drawerOpen"
+    Width="20vw"
+    Fixed="true"
+    ClipMode="DrawerClipMode.Docked"
+    Anchor="Anchor.End"
+    Elevation="1"
+    Class="px-4 py-2 mud-background-gray">
+    <MudToolBar DisableGutters="true">
+        <MudText Typo="Typo.h6">
+            @_currentTask.Name?.ToUpper()
+        </MudText>
+        <MudSpacer/>
+        <MudIconButton
+            Icon="@Icons.Outlined.Cancel"
+            OnClick="@(CloseDrawer)">
+        </MudIconButton>
+    </MudToolBar>
+    <MudPaper Elevation="0"
+              Class="mud-height-full mud-background-gray pa-2 my-2">
+        <MudText Typo="Typo.body1">@_currentTask.Id - @_currentTask.Name</MudText>
+    </MudPaper>
+    <MudButton
+        StartIcon="@Icons.Filled.Delete"
+        FullWidth="true"
+        OnClick="@(async () => { await DeleteTask(); CloseDrawer();})"
+        Class="rounded-lg py-2">
+        Delete Task
+    </MudButton>
+</MudDrawer>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using ProMag.Server.Api.Attributes;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
@@ -12,6 +13,7 @@ namespace ProMag.Server.Api.Controllers;
 [Route("api/[controller]")]
 [EnableCors("CorsPolicy")]
 [ApiController]
+[Authorize]
 public class MainTasksController : BaseController
 {
     public MainTasksController(ISupervisor supervisor) : base(supervisor)
@@ -24,6 +26,21 @@ public class MainTasksController : BaseController
         try
         {
             var result = await Supervisor.GetAllAsync<MainTask, MainTaskReadDto>();
+
+            return !result.Any() ? NotFound() : Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e);
+        }
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<IEnumerable<MainTaskReadDto>>> GetByProjectId(int projectId)
+    {
+        try
+        {
+            var result = await Supervisor.GetMainTasksByProjectId(projectId);
 
             return !result.Any() ? NotFound() : Ok(result);
         }
@@ -49,7 +66,7 @@ public class MainTasksController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateAsync([FromBody] MainTaskCreateDto? createDto)
+    public async Task<ActionResult<MainTaskReadDto>> CreateAsync([FromBody] MainTaskCreateDto? createDto)
     {
         try
         {

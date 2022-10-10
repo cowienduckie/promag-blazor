@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using ProMag.Server.Api.Attributes;
 using ProMag.Server.Core.Domain.Entities;
 using ProMag.Server.Core.Domain.Supervisor;
 using ProMag.Shared.DataTransferObjects.CreateDtos;
@@ -12,6 +13,7 @@ namespace ProMag.Server.Api.Controllers;
 [Route("api/[controller]")]
 [EnableCors("CorsPolicy")]
 [ApiController]
+[Authorize]
 public class SubTasksController : BaseController
 {
     public SubTasksController(ISupervisor supervisor) : base(supervisor)

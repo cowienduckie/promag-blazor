@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
-using ProMag.Server.Api;
 using Xunit;
 
 namespace ProMag.Server.IntegrationTest.Api;

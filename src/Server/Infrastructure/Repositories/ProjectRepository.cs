@@ -30,7 +30,7 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
         return await DataContext.Projects
             .Where(e => !e.IsDelete && e.Id == id)
             .Include(e => e.Status)
-            .Include(e => e.MainTasks)
+            .Include(e => e.MainTasks.Where(mt => !mt.IsDelete))
             .ThenInclude(mt => mt.Status)
             .Include(e => e.DefaultProperties)
             .FirstOrDefaultAsync();

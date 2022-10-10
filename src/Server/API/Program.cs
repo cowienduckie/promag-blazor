@@ -1,4 +1,5 @@
 using ProMag.Server.Api.Configurations;
+using ProMag.Server.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureSupervisor();
 
+builder.Services.AddServices();
+
 // Configure app
 var app = builder.Build();
 
@@ -37,6 +40,8 @@ app.UseAuthorization();
 
 app.UseCors("CorsPolicy");
 
+app.UseMiddleware<JwtMiddleware>();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHealthChecks("/health");
@@ -45,9 +50,6 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-namespace ProMag.Server.Api
+public partial class Program
 {
-    public class Program
-    {
-    }
 }
